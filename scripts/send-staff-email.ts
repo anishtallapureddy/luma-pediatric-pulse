@@ -34,6 +34,7 @@ async function main() {
   const html = renderHtmlEmail(data, summary, dashboardUrl);
   const text = renderTextEmail(data, summary);
 
+  console.log(`DEBUG from=${JSON.stringify(from)} to=${JSON.stringify(to)}`);
   const resend = new Resend(apiKey);
 
   const { data: sendResult, error } = await resend.emails.send({
