@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --luma-cream: #F7EFE4;
+  --luma-navy: #0B1D3A;
+}
+
+html, body {
+  background-color: var(--luma-cream);
+  color: var(--luma-navy);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  @apply font-body antialiased;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display serif is opt-in via .font-display only — keeps body sans crisp. */
+.font-display {
+  font-family: var(--font-display, "Cormorant Garamond"), Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+/* Eyebrow micro-label used above headings */
+.eyebrow {
+  @apply text-[11px] uppercase tracking-[0.18em] font-semibold text-luma-muted;
+}
+
+/* Section title — crisp sans, used on every card */
+.section-title {
+  @apply text-[15px] font-semibold text-luma-navy tracking-tight leading-tight;
+}

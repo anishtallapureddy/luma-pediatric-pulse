@@ -1,0 +1,60 @@
+name: Refresh snapshot and email staff
+
+on:
+  schedule:
+    # 7 AM CST/CDT: 13:00 UTC (CST, UTC-6) and 12:00 UTC (CDT, UTC-5)
+    - cron: "0 12,13 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-snapshot
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh snapshot
+        env:
+          AIRNOW_API_KEY: ${{ secrets.AIRNOW_API_KEY }}
+          GOOGLE_POLLEN_API_KEY: ${{ secrets.GOOGLE_POLLEN_API_KEY }}
+          CDC_APP_TOKEN: ${{ secrets.CDC_APP_TOKEN }}
+          CDC_NNDSS_DATASET_ID: ${{ secrets.CDC_NNDSS_DATASET_ID }}
+        run: npm run refresh
+
+      - name: Commit snapshot if changed
+        id: commit
+        run: |
+          git config user.name "luma-pulse-bot"
+          git config user.email "bot@lumapediatrics.com"
+          if git diff --quiet -- data/snapshot.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No snapshot changes."
+          else
+            git add data/snapshot.json
+            git commit -m "chore(data): daily snapshot refresh"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Send staff email
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          STAFF_EMAILS: ${{ secrets.STAFF_EMAILS }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
+        run: npm run send-email
