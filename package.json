@@ -5,6 +5,7 @@
   "description": "Luma Pediatric Pulse — internal pediatric clinic operational dashboard for Luma Pediatrics (McKinney, TX).",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node -e \"require('fs').mkdirSync('public',{recursive:true});require('fs').copyFileSync('data/snapshot.json','public/snapshot.json')\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
