@@ -4,6 +4,7 @@ import SummaryCard from "@/components/health-watch/SummaryCard";
 import AirQualityCard from "@/components/health-watch/AirQualityCard";
 import PollenCard from "@/components/health-watch/PollenCard";
 import RespiratoryIllnessCard from "@/components/health-watch/RespiratoryIllnessCard";
+import CommunityVirusWatchCard from "@/components/health-watch/CommunityVirusWatchCard";
 import DrugShortageCard from "@/components/health-watch/DrugShortageCard";
 import VaccinePreventableCard from "@/components/health-watch/VaccinePreventableCard";
 import OperationalRecommendationsCard from "@/components/health-watch/OperationalRecommendationsCard";
@@ -98,6 +99,13 @@ export default function ProviderHealthWatchPage() {
         <div id="respiratory" className="scroll-mt-24">
           <RespiratoryIllnessCard data={data.respiratoryIllness} />
         </div>
+
+        {/* Detailed community virus tracking */}
+        {data.communityVirusWatch && (
+          <div id="virus-watch" className="scroll-mt-24">
+            <CommunityVirusWatchCard data={data.communityVirusWatch} />
+          </div>
+        )}
 
         {/* Vaccine-preventable disease watch */}
         <div id="vaccines" className="scroll-mt-24">

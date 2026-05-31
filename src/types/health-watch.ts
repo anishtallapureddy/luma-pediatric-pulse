@@ -129,8 +129,31 @@ export interface ProviderHealthWatchData {
   airQuality: AirQuality;
   pollen: Pollen;
   respiratoryIllness: RespiratoryIllness;
+  communityVirusWatch?: CommunityVirusWatch;
   drugShortages: DrugShortagesSection;
   vaccinePreventable: VaccinePreventableSection;
   operationalRecommendations: string[];
   sources: string[];
+}
+
+export type VirusCategory =
+  | "respiratory"
+  | "gastrointestinal"
+  | "other-pediatric";
+
+export interface CommunityVirusEntry {
+  key: string;
+  name: string;
+  category: VirusCategory;
+  level: SignalLevel;
+  trend: TrendDirection;
+  positivityPct?: number;
+  parentNote: string;
+  providerNote: string;
+}
+
+export interface CommunityVirusWatch extends SourceMeta {
+  geography: string;
+  entries: CommunityVirusEntry[];
+  providerNote: string;
 }

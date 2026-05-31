@@ -11,6 +11,7 @@ function staleNote(d: ProviderHealthWatchData): string {
   if (d.respiratoryIllness.stale) stales.push("respiratory illness");
   if (d.drugShortages.stale) stales.push("drug shortages");
   if (d.vaccinePreventable?.stale) stales.push("vaccine-preventable diseases");
+  if (d.communityVirusWatch?.stale) stales.push("community virus watch");
   if (stales.length === 0) return "";
   return `Note: ${stales.join(", ")} did not refresh today; showing previous values.`;
 }
@@ -43,6 +44,22 @@ export function renderTextEmail(
   lines.push(`AQI: ${data.airQuality.currentAqi} (${data.airQuality.category}) — ${data.airQuality.primaryPollutant}`);
   lines.push(`Pollen: tree ${data.pollen.treeLevel}, grass ${data.pollen.grassLevel}, weed ${data.pollen.weedLevel}`);
   lines.push(`Respiratory: RSV ${data.respiratoryIllness.rsvLevel} (${data.respiratoryIllness.rsvTrend}), Flu ${data.respiratoryIllness.fluLevel} (${data.respiratoryIllness.fluTrend}), COVID ${data.respiratoryIllness.covidLevel} (${data.respiratoryIllness.covidTrend})`);
+
+  const virusEntries = data.communityVirusWatch?.entries ?? [];
+  const virusActive = virusEntries.filter(
+    (v) =>
+      v.level === "High" ||
+      v.level === "Very High" ||
+      (v.trend === "Rising" && v.level !== "Low"),
+  );
+  if (virusActive.length) {
+    lines.push("");
+    lines.push("Community virus watch (elevated or rising):");
+    for (const v of virusActive) {
+      const pct = typeof v.positivityPct === "number" ? `, ${v.positivityPct.toFixed(1)}% positivity` : "";
+      lines.push(`  - ${v.name}: ${v.level} / ${v.trend}${pct}`);
+    }
+  }
 
   const constrained = data.drugShortages.items.filter(
     (d) => d.status === "Shortage" || d.status === "Limited",
@@ -112,6 +129,23 @@ export function renderHtmlEmail(
         .join("")}</ul>`
     : "";
 
+  const virusEntries = data.communityVirusWatch?.entries ?? [];
+  const virusActive = virusEntries.filter(
+    (v) =>
+      v.level === "High" ||
+      v.level === "Very High" ||
+      (v.trend === "Rising" && v.level !== "Low"),
+  );
+  const virusHtml = virusActive.length
+    ? `<tr><td style="padding:12px 0;"><strong>Community virus watch (elevated or rising):</strong>
+        <ul style="margin:8px 0 0 20px;padding:0;color:#0B1D3A;">${virusActive
+          .map((v) => {
+            const pct = typeof v.positivityPct === "number" ? ` · ${v.positivityPct.toFixed(1)}% positivity` : "";
+            return `<li style="margin:4px 0;"><strong>${escapeHtml(v.name)}</strong>: ${escapeHtml(v.level)} / ${escapeHtml(v.trend)}${pct}</li>`;
+          })
+          .join("")}</ul></td></tr>`
+    : "";
+
   const constrainedHtml = constrained.length
     ? `<tr><td style="padding:12px 0;"><strong>Constrained meds (check pharmacy):</strong>
         <ul style="margin:8px 0 0 20px;padding:0;color:#0B1D3A;">${constrained
@@ -143,6 +177,7 @@ export function renderHtmlEmail(
           <div style="margin-top:4px;"><strong>Pollen:</strong> tree ${escapeHtml(data.pollen.treeLevel)}, grass ${escapeHtml(data.pollen.grassLevel)}, weed ${escapeHtml(data.pollen.weedLevel)}</div>
           <div style="margin-top:4px;"><strong>Respiratory:</strong> RSV ${escapeHtml(data.respiratoryIllness.rsvLevel)} (${escapeHtml(data.respiratoryIllness.rsvTrend)}), Flu ${escapeHtml(data.respiratoryIllness.fluLevel)} (${escapeHtml(data.respiratoryIllness.fluTrend)}), COVID ${escapeHtml(data.respiratoryIllness.covidLevel)} (${escapeHtml(data.respiratoryIllness.covidTrend)})</div>
         </td></tr>
+        ${virusHtml ? `<tr><td style="padding:0 24px;">${virusHtml}</td></tr>` : ""}
         ${constrainedHtml ? `<tr><td style="padding:0 24px;">${constrainedHtml}</td></tr>` : ""}
         ${staleHtml}
         <tr><td style="padding:20px 24px;text-align:center;">

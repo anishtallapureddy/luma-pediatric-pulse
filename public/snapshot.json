@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-05-31T00:58:33.774Z",
-  "lastRefreshedAt": "2026-05-31T00:58:33.774Z",
+  "lastUpdated": "2026-05-31T02:30:19.316Z",
+  "lastRefreshedAt": "2026-05-31T02:30:19.316Z",
   "coverageArea": [
     "75071",
     "75069",
@@ -36,7 +36,10 @@
     ],
     "providerNote": "Air quality is in the Good range across the McKinney area. No additional asthma precautions indicated beyond routine asthma action plan use.",
     "source": "EPA AirNow",
-    "lastUpdated": "2026-05-31T00:58:33.774Z"
+    "lastUpdated": "2026-05-31T00:58:33.774Z",
+    "stale": true,
+    "staleSince": "2026-05-31T00:58:33.774Z",
+    "error": "AIRNOW_API_KEY not set"
   },
   "pollen": {
     "treeLevel": "High",
@@ -81,86 +84,217 @@
     ],
     "providerNote": "Tree pollen is high (oak, cedar, elm dominant). Expect more allergy-symptom and wheezing-related calls from patients with known asthma or allergic rhinitis.",
     "source": "Pollen API",
-    "lastUpdated": "2026-05-31T00:58:33.774Z"
+    "lastUpdated": "2026-05-31T00:58:33.774Z",
+    "stale": true,
+    "staleSince": "2026-05-31T00:58:33.774Z",
+    "error": "GOOGLE_POLLEN_API_KEY not set"
   },
   "respiratoryIllness": {
-    "rsvLevel": "Moderate",
-    "rsvTrend": "Rising",
+    "rsvLevel": "Low",
+    "rsvTrend": "Stable",
     "fluLevel": "Low",
     "fluTrend": "Stable",
     "covidLevel": "Low",
     "covidTrend": "Stable",
-    "edRespiratoryVisitTrend": "Rising",
-    "wastewaterTrend": "Regional wastewater signal available at metro level only; not yet broken out by ZIP for the McKinney area.",
-    "geography": "North DFW region (Collin County and surrounding counties)",
+    "edRespiratoryVisitTrend": "Stable",
+    "wastewaterTrend": "Regional wastewater signal available at metro level only; not yet broken out by ZIP for the North Dallas area.",
+    "geography": "Texas (state-level hospitalization metrics)",
     "weeklyTrend": [
       {
         "weekLabel": "Wk -5",
-        "rsv": 2,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 5
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       },
       {
         "weekLabel": "Wk -4",
-        "rsv": 3,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 6
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       },
       {
         "weekLabel": "Wk -3",
-        "rsv": 4,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 6
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       },
       {
         "weekLabel": "Wk -2",
-        "rsv": 5,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 7
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       },
       {
         "weekLabel": "Wk -1",
-        "rsv": 6,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 8
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       },
       {
         "weekLabel": "This wk",
-        "rsv": 7,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 9
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       }
     ],
-    "providerNote": "Regional RSV activity is rising while flu and COVID remain low and stable. Anticipate more cough, congestion, wheezing, and fever-related calls; some signals are regional rather than ZIP-level.",
+    "providerNote": "Regional respiratory activity is stable across RSV, flu, and COVID.",
     "source": "CDC / Texas DSHS",
-    "lastUpdated": "2026-05-31T00:58:33.774Z"
+    "lastUpdated": "2026-05-31T02:30:18.189Z",
+    "stale": false
+  },
+  "communityVirusWatch": {
+    "geography": "North Dallas region (Collin County and surrounding counties)",
+    "entries": [
+      {
+        "key": "rsv",
+        "name": "RSV",
+        "category": "respiratory",
+        "level": "Low",
+        "trend": "Stable",
+        "positivityPct": 1.2,
+        "parentNote": "RSV is in its off-season. Very few cases circulating right now.",
+        "providerNote": "Test positivity at HHS Region 6 ~1%. Continue Beyfortus/Synagis discussion at well-child visits for fall season."
+      },
+      {
+        "key": "flu-a",
+        "name": "Influenza A",
+        "category": "respiratory",
+        "level": "Low",
+        "trend": "Stable",
+        "positivityPct": 1.8,
+        "parentNote": "Flu A activity has tapered off for the season.",
+        "providerNote": "End-of-season decline; sporadic H1N1/H3N2 detections only. Continue antiviral readiness for high-risk patients."
+      },
+      {
+        "key": "flu-b",
+        "name": "Influenza B",
+        "category": "respiratory",
+        "level": "Low",
+        "trend": "Stable",
+        "positivityPct": 0.4,
+        "parentNote": "Flu B is uncommon right now.",
+        "providerNote": "Minimal regional B/Victoria detections this week."
+      },
+      {
+        "key": "covid",
+        "name": "COVID-19",
+        "category": "respiratory",
+        "level": "Low",
+        "trend": "Stable",
+        "positivityPct": 3.5,
+        "parentNote": "COVID cases are low. Wastewater signal is also stable.",
+        "providerNote": "Wastewater stable; ED visit share for COVID-like illness <2%. Continue routine testing for fever + respiratory symptoms in high-risk pediatric patients."
+      },
+      {
+        "key": "rhino-entero",
+        "name": "Rhinovirus / Enterovirus",
+        "category": "respiratory",
+        "level": "Moderate",
+        "trend": "Rising",
+        "positivityPct": 18.4,
+        "parentNote": "The common cold (rhinovirus) is the most active virus in our area right now.",
+        "providerNote": "Highest positivity across the panel. Expect increased URI / asthma-exacerbation calls. Reinforce asthma action plans."
+      },
+      {
+        "key": "hmpv",
+        "name": "Human Metapneumovirus (hMPV)",
+        "category": "respiratory",
+        "level": "Low",
+        "trend": "Decreasing",
+        "positivityPct": 2.1,
+        "parentNote": "hMPV is winding down after its spring peak.",
+        "providerNote": "Late-season decline; consider hMPV for RSV-like presentations testing RSV-negative."
+      },
+      {
+        "key": "parainfluenza",
+        "name": "Parainfluenza",
+        "category": "respiratory",
+        "level": "Moderate",
+        "trend": "Rising",
+        "positivityPct": 8.6,
+        "parentNote": "Parainfluenza is rising — this is the main cause of croup (barky cough).",
+        "providerNote": "PIV-3 peak typically May–June; expect more croup. Have steroid + nebulized epi readily available."
+      },
+      {
+        "key": "adenovirus",
+        "name": "Adenovirus",
+        "category": "respiratory",
+        "level": "Low",
+        "trend": "Stable",
+        "positivityPct": 2.8,
+        "parentNote": "Adenovirus activity is low right now.",
+        "providerNote": "Sporadic; consider in fever + conjunctivitis or prolonged febrile illness."
+      },
+      {
+        "key": "norovirus",
+        "name": "Norovirus",
+        "category": "gastrointestinal",
+        "level": "Low",
+        "trend": "Decreasing",
+        "positivityPct": 6.1,
+        "parentNote": "Stomach-bug (norovirus) season is winding down.",
+        "providerNote": "NoroSTAT regional activity past peak. Reinforce hand-hygiene and hydration guidance."
+      },
+      {
+        "key": "rotavirus",
+        "name": "Rotavirus",
+        "category": "gastrointestinal",
+        "level": "Low",
+        "trend": "Stable",
+        "positivityPct": 0.9,
+        "parentNote": "Rotavirus is rare thanks to widespread vaccination.",
+        "providerNote": "Ensure 2-/3-dose Rota series completion at 2/4 (/6) month visits."
+      },
+      {
+        "key": "hfmd",
+        "name": "Hand, Foot & Mouth Disease",
+        "category": "other-pediatric",
+        "level": "Moderate",
+        "trend": "Rising",
+        "parentNote": "Hand, foot & mouth disease is picking up as we head into summer — daycare and camp settings especially.",
+        "providerNote": "Coxsackie A6/A16 entering seasonal rise. Reassure families re: symptomatic care; review return-to-daycare criteria."
+      },
+      {
+        "key": "fifth-disease",
+        "name": "Fifth Disease (Parvovirus B19)",
+        "category": "other-pediatric",
+        "level": "Moderate",
+        "trend": "Stable",
+        "parentNote": "Fifth disease is around right now — look for the 'slapped-cheek' rash. Most kids do fine.",
+        "providerNote": "Elevated regional B19 activity since late 2024. Flag pregnant household contacts and patients with hemolytic anemia / immunocompromise."
+      }
+    ],
+    "providerNote": "Spring/early-summer pattern: winter respiratory viruses (RSV, flu, hMPV) declining; rhinovirus, parainfluenza, HFMD, and parvovirus B19 active. Norovirus and rotavirus seasonally low.",
+    "source": "CDC NREVSS / NoroSTAT / Texas DSHS",
+    "lastUpdated": "2026-05-31T02:30:17.758Z",
+    "stale": false
   },
   "drugShortages": {
-    "source": "FDA Drug Shortages",
-    "lastUpdated": "2026-05-31T00:58:33.774Z",
+    "source": "FDA Drug Shortages / openFDA",
+    "lastUpdated": "2026-05-31T02:30:19.316Z",
     "items": [
       {
         "drugName": "Amoxicillin (suspension)",
         "category": "Antibiotic",
-        "status": "Limited",
+        "status": "Available",
         "pediatricRelevance": "First-line for AOM, strep pharyngitis, CAP in many pediatric patients.",
         "suggestedProviderAction": "Confirm pharmacy availability before prescribing high-volume liquid formulations; consider alternative concentrations.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T02:30:18.345Z",
         "source": "FDA Drug Shortages"
       },
       {
         "drugName": "Amoxicillin-clavulanate (suspension)",
         "category": "Antibiotic",
-        "status": "Limited",
+        "status": "Available",
         "pediatricRelevance": "Common second-line for AOM and sinusitis when amoxicillin is insufficient.",
         "suggestedProviderAction": "Verify availability with local pharmacy before sending; have alternate regimens ready.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T02:30:18.485Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -168,8 +302,8 @@
         "category": "Antibiotic",
         "status": "Available",
         "pediatricRelevance": "Common penicillin alternative for AOM and sinusitis.",
-        "suggestedProviderAction": "Generally available; monitor for changes if amoxicillin demand surges.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "suggestedProviderAction": "Monitor for changes if amoxicillin demand surges.",
+        "lastUpdated": "2026-05-31T02:30:18.619Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -178,16 +312,16 @@
         "status": "Available",
         "pediatricRelevance": "Core rescue therapy for pediatric asthma and reactive airway disease.",
         "suggestedProviderAction": "Reinforce spacer use and asthma action plans; remind families to refill before respiratory season peaks.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T02:30:18.754Z",
         "source": "FDA Drug Shortages"
       },
       {
         "drugName": "Albuterol nebulizer solution",
         "category": "Bronchodilator",
-        "status": "Limited",
+        "status": "Available",
         "pediatricRelevance": "Used for in-clinic nebulizer treatments and home neb therapy in younger children.",
         "suggestedProviderAction": "Track on-hand clinic stock; prefer MDI + spacer when clinically appropriate.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T02:30:18.893Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -195,29 +329,30 @@
         "category": "Antiviral",
         "status": "Available",
         "pediatricRelevance": "Influenza treatment in eligible pediatric patients during flu season.",
-        "suggestedProviderAction": "Currently available; revisit if regional flu activity rises.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "suggestedProviderAction": "Revisit if regional flu activity rises.",
+        "lastUpdated": "2026-05-31T02:30:19.037Z",
         "source": "FDA Drug Shortages"
       },
       {
         "drugName": "Methylphenidate",
         "category": "ADHD stimulant",
-        "status": "Shortage",
+        "status": "Available",
         "pediatricRelevance": "Common ADHD therapy; shortages affect refill workflows and family planning.",
         "suggestedProviderAction": "Discuss formulation alternatives with family; coordinate with pharmacy before changing dose or product.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T02:30:19.175Z",
         "source": "FDA Drug Shortages"
       },
       {
         "drugName": "Amphetamine / dextroamphetamine",
         "category": "ADHD stimulant",
-        "status": "Shortage",
+        "status": "Available",
         "pediatricRelevance": "Alternate ADHD therapy; shortages affect refill and switching options.",
         "suggestedProviderAction": "Plan refill timing carefully; consider documented alternative regimens per family.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T02:30:19.316Z",
         "source": "FDA Drug Shortages"
       }
-    ]
+    ],
+    "stale": false
   },
   "vaccinePreventable": {
     "source": "CDC NNDSS / Texas DSHS",
@@ -277,7 +412,10 @@
         "vaccineRelevance": "PCV15/PCV20-preventable. Series at 2, 4, 6, 12-15 mo.",
         "suggestedProviderAction": "Confirm PCV series; review post-splenectomy and high-risk indications."
       }
-    ]
+    ],
+    "stale": true,
+    "staleSince": "2026-05-31T00:58:33.774Z",
+    "error": "CDC_NNDSS_DATASET_ID not set (NNDSS dataset IDs rotate annually; set the current weekly cases dataset ID)."
   },
   "operationalRecommendations": [
     "Hold a few same-day sick visit slots if call volume rises this week.",
@@ -289,8 +427,9 @@
   ],
   "sources": [
     "EPA AirNow (air quality)",
-    "Pollen API (tree, grass, weed pollen levels)",
+    "Google Pollen API (tree, grass, weed pollen levels)",
     "CDC / Texas DSHS (respiratory illness surveillance)",
+    "CDC NREVSS / NoroSTAT / Texas DSHS (community virus watch)",
     "FDA Drug Shortages / openFDA (medication availability)",
     "CDC NNDSS / Texas DSHS (vaccine-preventable disease surveillance)"
   ]

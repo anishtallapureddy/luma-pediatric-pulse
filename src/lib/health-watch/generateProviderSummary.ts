@@ -127,6 +127,19 @@ export function generateProviderSummary(
     );
   }
 
+  // Community virus watch — flag any High/Rising entry
+  const virusEntries = data.communityVirusWatch?.entries ?? [];
+  const risingViruses = virusEntries.filter(
+    (v) => isElevated(v.level) || (isRising(v.trend) && v.level !== "Low"),
+  );
+  if (risingViruses.length > 0) {
+    moderateConcerns.push("community virus activity");
+    const top = risingViruses.slice(0, 3).map((v) => v.name).join(", ");
+    keySignals.push(
+      `Community virus watch: ${top} ${risingViruses.length > 3 ? `(+${risingViruses.length - 3} more) ` : ""}elevated or rising regionally.`,
+    );
+  }
+
   // Risk level
   let riskLevel: RiskLevel;
   if (concerns.length >= 2) {

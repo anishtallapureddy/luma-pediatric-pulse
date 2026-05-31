@@ -86,6 +86,152 @@ export const mockProviderHealthWatchData: ProviderHealthWatchData = {
     lastUpdated: iso(today),
   },
 
+  communityVirusWatch: {
+    geography: "North Dallas region (Collin County and surrounding counties)",
+    entries: [
+      {
+        key: "rsv",
+        name: "RSV",
+        category: "respiratory",
+        level: "Low",
+        trend: "Stable",
+        positivityPct: 1.2,
+        parentNote:
+          "RSV is in its off-season. Very few cases circulating right now.",
+        providerNote:
+          "Test positivity at HHS Region 6 ~1%. Continue Beyfortus/Synagis discussion at well-child visits for fall season.",
+      },
+      {
+        key: "flu-a",
+        name: "Influenza A",
+        category: "respiratory",
+        level: "Low",
+        trend: "Stable",
+        positivityPct: 1.8,
+        parentNote: "Flu A activity has tapered off for the season.",
+        providerNote:
+          "End-of-season decline; sporadic H1N1/H3N2 detections only. Continue antiviral readiness for high-risk patients.",
+      },
+      {
+        key: "flu-b",
+        name: "Influenza B",
+        category: "respiratory",
+        level: "Low",
+        trend: "Stable",
+        positivityPct: 0.4,
+        parentNote: "Flu B is uncommon right now.",
+        providerNote: "Minimal regional B/Victoria detections this week.",
+      },
+      {
+        key: "covid",
+        name: "COVID-19",
+        category: "respiratory",
+        level: "Low",
+        trend: "Stable",
+        positivityPct: 3.5,
+        parentNote:
+          "COVID cases are low. Wastewater signal is also stable.",
+        providerNote:
+          "Wastewater stable; ED visit share for COVID-like illness <2%. Continue routine testing for fever + respiratory symptoms in high-risk pediatric patients.",
+      },
+      {
+        key: "rhino-entero",
+        name: "Rhinovirus / Enterovirus",
+        category: "respiratory",
+        level: "Moderate",
+        trend: "Rising",
+        positivityPct: 18.4,
+        parentNote:
+          "The common cold (rhinovirus) is the most active virus in our area right now.",
+        providerNote:
+          "Highest positivity across the panel. Expect increased URI / asthma-exacerbation calls. Reinforce asthma action plans.",
+      },
+      {
+        key: "hmpv",
+        name: "Human Metapneumovirus (hMPV)",
+        category: "respiratory",
+        level: "Low",
+        trend: "Decreasing",
+        positivityPct: 2.1,
+        parentNote: "hMPV is winding down after its spring peak.",
+        providerNote:
+          "Late-season decline; consider hMPV for RSV-like presentations testing RSV-negative.",
+      },
+      {
+        key: "parainfluenza",
+        name: "Parainfluenza",
+        category: "respiratory",
+        level: "Moderate",
+        trend: "Rising",
+        positivityPct: 8.6,
+        parentNote:
+          "Parainfluenza is rising — this is the main cause of croup (barky cough).",
+        providerNote:
+          "PIV-3 peak typically May–June; expect more croup. Have steroid + nebulized epi readily available.",
+      },
+      {
+        key: "adenovirus",
+        name: "Adenovirus",
+        category: "respiratory",
+        level: "Low",
+        trend: "Stable",
+        positivityPct: 2.8,
+        parentNote: "Adenovirus activity is low right now.",
+        providerNote:
+          "Sporadic; consider in fever + conjunctivitis or prolonged febrile illness.",
+      },
+      {
+        key: "norovirus",
+        name: "Norovirus",
+        category: "gastrointestinal",
+        level: "Low",
+        trend: "Decreasing",
+        positivityPct: 6.1,
+        parentNote:
+          "Stomach-bug (norovirus) season is winding down.",
+        providerNote:
+          "NoroSTAT regional activity past peak. Reinforce hand-hygiene and hydration guidance.",
+      },
+      {
+        key: "rotavirus",
+        name: "Rotavirus",
+        category: "gastrointestinal",
+        level: "Low",
+        trend: "Stable",
+        positivityPct: 0.9,
+        parentNote: "Rotavirus is rare thanks to widespread vaccination.",
+        providerNote:
+          "Ensure 2-/3-dose Rota series completion at 2/4 (/6) month visits.",
+      },
+      {
+        key: "hfmd",
+        name: "Hand, Foot & Mouth Disease",
+        category: "other-pediatric",
+        level: "Moderate",
+        trend: "Rising",
+        parentNote:
+          "Hand, foot & mouth disease is picking up as we head into summer — daycare and camp settings especially.",
+        providerNote:
+          "Coxsackie A6/A16 entering seasonal rise. Reassure families re: symptomatic care; review return-to-daycare criteria.",
+      },
+      {
+        key: "fifth-disease",
+        name: "Fifth Disease (Parvovirus B19)",
+        category: "other-pediatric",
+        level: "Moderate",
+        trend: "Stable",
+        parentNote:
+          "Fifth disease is around right now — look for the 'slapped-cheek' rash. Most kids do fine.",
+        providerNote:
+          "Elevated regional B19 activity since late 2024. Flag pregnant household contacts and patients with hemolytic anemia / immunocompromise.",
+      },
+    ],
+    providerNote:
+      "Spring/early-summer pattern: winter respiratory viruses (RSV, flu, hMPV) declining; rhinovirus, parainfluenza, HFMD, and parvovirus B19 active. Norovirus and rotavirus seasonally low.",
+    source: "CDC NREVSS / NoroSTAT / Texas DSHS",
+    lastUpdated: iso(today),
+  },
+
   drugShortages: {
     source: "FDA Drug Shortages",
     lastUpdated: iso(today),

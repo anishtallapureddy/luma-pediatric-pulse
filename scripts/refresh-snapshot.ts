@@ -10,6 +10,7 @@ import { fetchPollen } from "./sources/pollen";
 import { fetchCdcRespiratory } from "./sources/cdc";
 import { fetchDrugShortages } from "./sources/openfda";
 import { fetchVaccinePreventable } from "./sources/nndss";
+import { fetchCommunityVirusWatch } from "./sources/communityViruses";
 import { COVERAGE_ZIPS, todayIso } from "./sources/_common";
 
 const SNAPSHOT_PATH = resolve("data/snapshot.json");
@@ -52,14 +53,17 @@ async function main() {
   // from mock-data ONCE so the per-section fallback has something to fall back to.
   const previousVpd =
     previous.vaccinePreventable ?? mockProviderHealthWatchData.vaccinePreventable;
+  const previousVirusWatch =
+    previous.communityVirusWatch ?? mockProviderHealthWatchData.communityVirusWatch!;
 
-  const [airQuality, pollen, respiratoryIllness, drugShortages, vaccinePreventable] =
+  const [airQuality, pollen, respiratoryIllness, drugShortages, vaccinePreventable, communityVirusWatch] =
     await Promise.all([
       tryFetch("AirNow", fetchAirNow, previous.airQuality),
       tryFetch("Pollen (Google)", fetchPollen, previous.pollen),
       tryFetch("CDC respiratory", fetchCdcRespiratory, previous.respiratoryIllness),
       tryFetch("openFDA drug shortages", fetchDrugShortages, previous.drugShortages),
       tryFetch("CDC NNDSS (VPD)", fetchVaccinePreventable, previousVpd),
+      tryFetch("Community virus watch", fetchCommunityVirusWatch, previousVirusWatch),
     ]);
 
   const now = todayIso();
@@ -71,6 +75,7 @@ async function main() {
     airQuality,
     pollen,
     respiratoryIllness,
+    communityVirusWatch,
     drugShortages,
     vaccinePreventable,
     operationalRecommendations: previous.operationalRecommendations.length
@@ -80,6 +85,7 @@ async function main() {
       "EPA AirNow (air quality)",
       "Google Pollen API (tree, grass, weed pollen levels)",
       "CDC / Texas DSHS (respiratory illness surveillance)",
+      "CDC NREVSS / NoroSTAT / Texas DSHS (community virus watch)",
       "FDA Drug Shortages / openFDA (medication availability)",
       "CDC NNDSS / Texas DSHS (vaccine-preventable disease surveillance)",
     ],
