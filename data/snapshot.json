@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-05-31T01:42:13.321Z",
-  "lastRefreshedAt": "2026-05-31T01:42:13.321Z",
+  "lastUpdated": "2026-05-31T01:48:44.412Z",
+  "lastRefreshedAt": "2026-05-31T01:48:44.412Z",
   "coverageArea": [
     "75071",
     "75069",
@@ -145,12 +145,12 @@
     ],
     "providerNote": "Regional respiratory activity is stable across RSV, flu, and COVID.",
     "source": "CDC / Texas DSHS",
-    "lastUpdated": "2026-05-31T01:42:12.212Z",
+    "lastUpdated": "2026-05-31T01:48:43.870Z",
     "stale": false
   },
   "drugShortages": {
     "source": "FDA Drug Shortages / openFDA",
-    "lastUpdated": "2026-05-31T01:42:13.321Z",
+    "lastUpdated": "2026-05-31T01:48:44.412Z",
     "items": [
       {
         "drugName": "Amoxicillin (suspension)",
@@ -158,7 +158,7 @@
         "status": "Available",
         "pediatricRelevance": "First-line for AOM, strep pharyngitis, CAP in many pediatric patients.",
         "suggestedProviderAction": "Confirm pharmacy availability before prescribing high-volume liquid formulations; consider alternative concentrations.",
-        "lastUpdated": "2026-05-31T01:42:12.213Z",
+        "lastUpdated": "2026-05-31T01:48:43.707Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -167,7 +167,7 @@
         "status": "Available",
         "pediatricRelevance": "Common second-line for AOM and sinusitis when amoxicillin is insufficient.",
         "suggestedProviderAction": "Verify availability with local pharmacy before sending; have alternate regimens ready.",
-        "lastUpdated": "2026-05-31T01:42:12.377Z",
+        "lastUpdated": "2026-05-31T01:48:43.754Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -176,7 +176,7 @@
         "status": "Available",
         "pediatricRelevance": "Common penicillin alternative for AOM and sinusitis.",
         "suggestedProviderAction": "Monitor for changes if amoxicillin demand surges.",
-        "lastUpdated": "2026-05-31T01:42:12.537Z",
+        "lastUpdated": "2026-05-31T01:48:43.871Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -185,7 +185,7 @@
         "status": "Available",
         "pediatricRelevance": "Core rescue therapy for pediatric asthma and reactive airway disease.",
         "suggestedProviderAction": "Reinforce spacer use and asthma action plans; remind families to refill before respiratory season peaks.",
-        "lastUpdated": "2026-05-31T01:42:12.701Z",
+        "lastUpdated": "2026-05-31T01:48:43.976Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -194,7 +194,7 @@
         "status": "Available",
         "pediatricRelevance": "Used for in-clinic nebulizer treatments and home neb therapy in younger children.",
         "suggestedProviderAction": "Track on-hand clinic stock; prefer MDI + spacer when clinically appropriate.",
-        "lastUpdated": "2026-05-31T01:42:12.857Z",
+        "lastUpdated": "2026-05-31T01:48:44.082Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -203,7 +203,7 @@
         "status": "Available",
         "pediatricRelevance": "Influenza treatment in eligible pediatric patients during flu season.",
         "suggestedProviderAction": "Revisit if regional flu activity rises.",
-        "lastUpdated": "2026-05-31T01:42:13.012Z",
+        "lastUpdated": "2026-05-31T01:48:44.190Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -212,7 +212,7 @@
         "status": "Available",
         "pediatricRelevance": "Common ADHD therapy; shortages affect refill workflows and family planning.",
         "suggestedProviderAction": "Discuss formulation alternatives with family; coordinate with pharmacy before changing dose or product.",
-        "lastUpdated": "2026-05-31T01:42:13.167Z",
+        "lastUpdated": "2026-05-31T01:48:44.295Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -221,7 +221,7 @@
         "status": "Available",
         "pediatricRelevance": "Alternate ADHD therapy; shortages affect refill and switching options.",
         "suggestedProviderAction": "Plan refill timing carefully; consider documented alternative regimens per family.",
-        "lastUpdated": "2026-05-31T01:42:13.321Z",
+        "lastUpdated": "2026-05-31T01:48:44.412Z",
         "source": "FDA Drug Shortages"
       }
     ],
