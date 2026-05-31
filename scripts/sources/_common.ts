@@ -39,11 +39,50 @@ export function pollenIndexToLevel(index: number): SignalLevel {
   return "Unknown";
 }
 
+async function fetchWithRetry(
+  url: string,
+  init: RequestInit | undefined,
+  attempts = 3,
+  timeoutMs = 20_000,
+): Promise<Response> {
+  let lastErr: unknown;
+  for (let i = 0; i < attempts; i++) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+    try {
+      const headers = {
+        "User-Agent": "luma-pediatric-pulse/1.0 (+https://pulse.lumapediatrics.com)",
+        ...(init?.headers || {}),
+      };
+      const res = await fetch(url, { ...init, headers, signal: ctrl.signal });
+      clearTimeout(timer);
+      // Retry on 5xx and 429; pass 4xx through.
+      if (res.status >= 500 || res.status === 429) {
+        lastErr = new Error(`HTTP ${res.status} from ${url}`);
+        if (i < attempts - 1) {
+          await new Promise((r) => setTimeout(r, 1000 * Math.pow(2, i)));
+          continue;
+        }
+        return res;
+      }
+      return res;
+    } catch (err) {
+      clearTimeout(timer);
+      lastErr = err;
+      if (i < attempts - 1) {
+        await new Promise((r) => setTimeout(r, 1000 * Math.pow(2, i)));
+        continue;
+      }
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error(String(lastErr));
+}
+
 export async function fetchJson<T>(
   url: string,
   init?: RequestInit,
 ): Promise<T> {
-  const res = await fetch(url, init);
+  const res = await fetchWithRetry(url, init);
   if (!res.ok) {
     const body = await res.text().catch(() => "");
     throw new Error(
@@ -54,7 +93,7 @@ export async function fetchJson<T>(
 }
 
 export async function fetchText(url: string, init?: RequestInit): Promise<string> {
-  const res = await fetch(url, init);
+  const res = await fetchWithRetry(url, init);
   if (!res.ok) {
     throw new Error(`HTTP ${res.status} from ${url}`);
   }
