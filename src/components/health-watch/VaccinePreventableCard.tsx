@@ -39,7 +39,7 @@ export default function VaccinePreventableCard({
             <tr className="text-left text-xs uppercase tracking-wide text-slate-500 border-b border-slate-200">
               <th className="py-2 pr-3 font-semibold">Disease</th>
               <th className="py-2 pr-3 font-semibold">Status</th>
-              <th className="py-2 pr-3 font-semibold">Recent cases</th>
+              <th className="py-2 pr-3 font-semibold">YTD (vs prior yr)</th>
               <th className="py-2 pr-3 font-semibold">Trend</th>
               <th className="py-2 pr-3 font-semibold">Vaccine relevance</th>
               <th className="py-2 pr-3 font-semibold">Suggested action</th>
@@ -63,9 +63,19 @@ export default function VaccinePreventableCard({
                   >
                     {v.status}
                   </span>
+                  {v.thresholdRationale && (
+                    <div className="mt-1 text-[11px] text-slate-500 font-normal leading-snug">
+                      {v.thresholdRationale}
+                    </div>
+                  )}
                 </td>
                 <td className="py-3 pr-3 text-slate-700 tabular-nums">
                   {v.recentCases}
+                  {typeof v.priorYearCases === "number" && (
+                    <span className="text-slate-400 text-xs">
+                      {" "}(vs {v.priorYearCases})
+                    </span>
+                  )}
                 </td>
                 <td className="py-3 pr-3 text-slate-600">
                   {trendLabel[v.trend] ?? v.trend}
@@ -103,9 +113,19 @@ export default function VaccinePreventableCard({
               </span>
             </div>
             <div className="mt-2 text-sm text-slate-700">
-              <span className="font-semibold">Recent cases:</span> {v.recentCases}{" "}
-              · {trendLabel[v.trend] ?? v.trend}
+              <span className="font-semibold">YTD cases:</span> {v.recentCases}
+              {typeof v.priorYearCases === "number" && (
+                <span className="text-slate-500">
+                  {" "}(vs {v.priorYearCases} same period last year)
+                </span>
+              )}
+              {" "}· {trendLabel[v.trend] ?? v.trend}
             </div>
+            {v.thresholdRationale && (
+              <p className="mt-1 text-xs text-slate-500 italic leading-snug">
+                {v.thresholdRationale}
+              </p>
+            )}
             <p className="mt-1 text-sm text-slate-700">
               <span className="font-semibold">Vaccine relevance: </span>
               {v.vaccineRelevance}
@@ -122,6 +142,15 @@ export default function VaccinePreventableCard({
         State-level surveillance signal. ZIP-level outbreak detail is generally
         not published publicly; coordinate with your local health department for
         confirmed exposures or cluster reports.
+      </p>
+      <p className="mt-2 text-xs text-slate-400 leading-relaxed">
+        <span className="font-semibold">Methodology:</span> Status is derived from
+        CDC NNDSS observed-vs-expected comparison — current-year YTD cases vs the
+        same MMWR week in the prior year (NNDSS field <code>m4</code>). "Active
+        outbreak" = current YTD &gt; 2× prior YTD (CDC epidemic-threshold
+        convention) or, for measles, ≥3 cases (per CDC's Manual for the
+        Surveillance of Vaccine-Preventable Diseases, Ch. 7). No invented
+        thresholds.
       </p>
     </section>
   );

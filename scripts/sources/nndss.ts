@@ -43,12 +43,25 @@ interface DiseaseSpec {
   labelIncludes: string[];
   vaccineRelevance: string;
   suggestedProviderAction: string;
-  // Thresholds applied to YTD cases for Texas.
-  watchYtd: number;
-  outbreakYtd: number;
+  /**
+   * If true, CDC's formal outbreak case-count definition applies:
+   *   Measles outbreak = ≥3 epidemiologically-linked cases
+   *   (CDC, "Manual for the Surveillance of Vaccine-Preventable Diseases",
+   *    Ch. 7 Measles). We cannot see epi-links from state YTD rollups, so
+   *    we treat ≥3 state cases as "Active outbreak" out of caution.
+   */
+  cdcCaseCountOutbreak?: { threshold: number; rationale: string };
 }
 
 const DEFAULT_DATASET_ID = "x9gk-5huc";
+
+/**
+ * The minimum YTD case count at which a year-over-year ratio is considered
+ * statistically meaningful. Below this floor we always report "Sporadic" to
+ * prevent tiny absolute numbers (e.g. 2 cases this year vs 0 last year)
+ * from triggering false-positive outbreak alerts.
+ */
+const STATISTICAL_FLOOR = 5;
 
 const DISEASES: DiseaseSpec[] = [
   {
@@ -58,9 +71,11 @@ const DISEASES: DiseaseSpec[] = [
       "MMR-preventable. Highly contagious; airborne. Confirm MMR1 (12-15 mo) and MMR2 (4-6 yr) at every visit.",
     suggestedProviderAction:
       "Verify MMR status, prompt catch-up doses, and review measles isolation/notification protocol with staff.",
-    // Measles: even 1 case warrants watch; baseline TX historically <10/yr.
-    watchYtd: 1,
-    outbreakYtd: 10,
+    cdcCaseCountOutbreak: {
+      threshold: 3,
+      rationale:
+        "CDC defines a measles outbreak as 3 or more epidemiologically-linked cases (CDC Manual for the Surveillance of Vaccine-Preventable Diseases, Ch. 7).",
+    },
   },
   {
     diseaseName: "Pertussis (whooping cough)",
@@ -69,9 +84,6 @@ const DISEASES: DiseaseSpec[] = [
       "DTaP/Tdap-preventable. Infants under 2 mo are highest-risk. Confirm caregiver Tdap (cocooning).",
     suggestedProviderAction:
       "Low threshold for testing prolonged paroxysmal cough; confirm DTaP series and Tdap for adolescents.",
-    // TX baseline pertussis: 200-500/yr. Watch = >2x typical pace.
-    watchYtd: 400,
-    outbreakYtd: 1000,
   },
   {
     diseaseName: "Hepatitis A",
@@ -79,9 +91,6 @@ const DISEASES: DiseaseSpec[] = [
     vaccineRelevance: "HepA-preventable. Two-dose series starting at 12 mo.",
     suggestedProviderAction:
       "Confirm HepA series at well visits; emphasize for travel to endemic regions.",
-    // TX baseline HepA: 50-150/yr.
-    watchYtd: 75,
-    outbreakYtd: 200,
   },
   {
     diseaseName: "Varicella (chickenpox)",
@@ -90,9 +99,6 @@ const DISEASES: DiseaseSpec[] = [
       "Varicella-preventable. Two-dose series (12-15 mo, 4-6 yr).",
     suggestedProviderAction:
       "Confirm two-dose varicella status at school-age visits; counsel on rash isolation.",
-    // TX baseline varicella: ~200-500/yr.
-    watchYtd: 250,
-    outbreakYtd: 600,
   },
   {
     diseaseName: "Mumps",
@@ -101,9 +107,6 @@ const DISEASES: DiseaseSpec[] = [
       "MMR-preventable. Outbreaks often occur in close-contact settings (camps, schools).",
     suggestedProviderAction:
       "Confirm MMR2 in school-age and adolescents; review parotitis differential during outbreaks.",
-    // TX baseline mumps: 5-30/yr typical.
-    watchYtd: 15,
-    outbreakYtd: 50,
   },
   {
     diseaseName: "Invasive pneumococcal disease (age <5)",
@@ -115,22 +118,69 @@ const DISEASES: DiseaseSpec[] = [
       "PCV15/PCV20-preventable. Series at 2, 4, 6, 12-15 mo.",
     suggestedProviderAction:
       "Confirm PCV series; review post-splenectomy and high-risk indications.",
-    // TX baseline pediatric IPD: 20-50/yr.
-    watchYtd: 30,
-    outbreakYtd: 75,
   },
 ];
 
+/**
+ * CDC observed-vs-expected surveillance methodology, applied at the state
+ * level using the NNDSS dataset's own historical baseline (prior-year YTD
+ * for the same MMWR week — field m4). This avoids invented thresholds.
+ *
+ * Levels:
+ *   - Active outbreak: current YTD > 2× prior YTD  (CDC's "epidemic threshold"
+ *     for many notifiable diseases is approximately 2× the historical baseline;
+ *     see MMWR Notifiable Diseases Weekly Tables methodology).
+ *   - Outbreak watch:  current YTD > prior YTD     (above last year's pace).
+ *   - Sporadic:        any cases, or below floor.
+ *   - No recent cases: zero YTD.
+ *
+ * For diseases with a formal CDC case-count outbreak definition (e.g. Measles
+ * ≥3 cases), that takes precedence over the ratio test.
+ */
 function classifyStatus(
   ytd: number,
-  weeklyMax: number,
-  watch: number,
-  outbreak: number,
-): VpdStatus {
-  if (ytd >= outbreak) return "Active outbreak";
-  if (ytd >= watch) return "Outbreak watch";
-  if (ytd > 0 || weeklyMax > 0) return "Sporadic";
-  return "No recent cases";
+  priorYtd: number,
+  spec: DiseaseSpec,
+): { status: VpdStatus; rationale: string } {
+  if (spec.cdcCaseCountOutbreak && ytd >= spec.cdcCaseCountOutbreak.threshold) {
+    return {
+      status: "Active outbreak",
+      rationale: spec.cdcCaseCountOutbreak.rationale,
+    };
+  }
+
+  if (ytd === 0) {
+    return {
+      status: "No recent cases",
+      rationale: `No ${spec.diseaseName.toLowerCase()} cases reported in Texas year-to-date.`,
+    };
+  }
+
+  if (ytd < STATISTICAL_FLOOR) {
+    return {
+      status: "Sporadic",
+      rationale: `${ytd} case(s) year-to-date — below the threshold (${STATISTICAL_FLOOR}) at which year-over-year comparison is statistically meaningful.`,
+    };
+  }
+
+  if (priorYtd > 0 && ytd > priorYtd * 2) {
+    return {
+      status: "Active outbreak",
+      rationale: `${ytd} cases YTD vs ${priorYtd} same period last year (>2× prior year — CDC observed-vs-expected epidemic threshold).`,
+    };
+  }
+
+  if (priorYtd >= 0 && ytd > priorYtd) {
+    return {
+      status: "Outbreak watch",
+      rationale: `${ytd} cases YTD vs ${priorYtd} same period last year (above prior-year baseline per CDC observed-vs-expected method).`,
+    };
+  }
+
+  return {
+    status: "Sporadic",
+    rationale: `${ytd} cases YTD vs ${priorYtd} same period last year (at or below historical baseline).`,
+  };
 }
 
 function classifyTrend(currentWeek: number, prevMax: number): TrendDirection {
@@ -199,6 +249,7 @@ export async function fetchVaccinePreventable(): Promise<VaccinePreventableSecti
     let currentWeekCases = 0;
     let weeklyMax = 0;
     let ytdMax = 0;
+    let priorYtdMax = 0;
 
     for (const label of spec.labelIncludes) {
       const labelRows = byLabel.get(label) ?? [];
@@ -207,28 +258,27 @@ export async function fetchVaccinePreventable(): Promise<VaccinePreventableSecti
         const m1 = num(r.m1);
         const m2 = num(r.m2);
         const m3 = num(r.m3);
+        const m4 = num(r.m4);
         if (wk === latestWeek) currentWeekCases += m1;
         if (m2 > weeklyMax) weeklyMax = m2;
         if (m3 > ytdMax) ytdMax = m3;
+        if (m4 > priorYtdMax) priorYtdMax = m4;
       }
     }
 
-    const status = classifyStatus(
-      ytdMax,
-      weeklyMax,
-      spec.watchYtd,
-      spec.outbreakYtd,
-    );
+    const { status, rationale } = classifyStatus(ytdMax, priorYtdMax, spec);
     const trend = classifyTrend(currentWeekCases, weeklyMax);
 
     items.push({
       diseaseName: spec.diseaseName,
       status,
       recentCases: ytdMax > 0 ? ytdMax : currentWeekCases,
+      priorYearCases: priorYtdMax,
       trend,
       geography: `Texas (state-level, YTD through MMWR week ${latestWeek || "?"})`,
       vaccineRelevance: spec.vaccineRelevance,
       suggestedProviderAction: spec.suggestedProviderAction,
+      thresholdRationale: rationale,
       lastUpdated: todayIso(),
     });
   }

@@ -101,10 +101,14 @@ export interface VaccinePreventableDisease {
   diseaseName: string;
   status: VpdStatus;
   recentCases: number;
+  /** Same-period (YTD) cases reported in the prior year, for CDC observed-vs-expected comparison. */
+  priorYearCases?: number;
   trend: TrendDirection;
   geography: string;
   vaccineRelevance: string;
   suggestedProviderAction: string;
+  /** Human-readable explanation of why we classified the disease at the chosen status. */
+  thresholdRationale?: string;
   lastUpdated?: string;
 }
 
