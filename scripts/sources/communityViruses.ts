@@ -102,23 +102,47 @@ const NO_PUBLIC_FEED = new Set([
   "Fifth Disease (Parvovirus B19)",
 ]);
 
+async function fetchWithRetry<T>(
+  label: string,
+  url: string,
+  init: RequestInit,
+  attempts = 3,
+): Promise<T> {
+  let lastErr: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 20_000);
+      try {
+        return await fetchJson<T>(url, { ...init, signal: ctrl.signal });
+      } finally {
+        clearTimeout(timer);
+      }
+    } catch (err) {
+      lastErr = err;
+      if (i < attempts - 1) {
+        await new Promise((r) => setTimeout(r, 1000 * (i + 1)));
+      }
+    }
+  }
+  throw new Error(`${label} failed after ${attempts} attempts: ${String(lastErr)}`);
+}
+
 async function fetchRegion6Series(): Promise<{
   byPathogen: Record<string, { weeks: string[]; values: number[] }>;
   latestWeek: string;
 }> {
   const token = process.env.CDC_APP_TOKEN;
-  const headers: Record<string, string> = {};
+  const headers: Record<string, string> = { "User-Agent": "luma-pediatric-pulse/1.0" };
   if (token) headers["X-App-Token"] = token;
 
-  // 8 most-recent weeks, Region 6 only, combined-type rows only where applicable.
-  // We over-fetch then aggregate per pathogen because some have subtype rows too.
   const url =
     `https://data.cdc.gov/resource/rgnm-fkqb.json` +
     `?level=Region%206` +
     `&$where=subtype%20IS%20NULL%20OR%20subtype%20IN(%27Combined%20Type%27%2C%27Combined%20Types%27)` +
     `&$order=mmwrweek_end%20DESC&$limit=400`;
 
-  const rows = await fetchJson<RgnmRow[]>(url, { headers });
+  const rows = await fetchWithRetry<RgnmRow[]>("NREVSS Region 6", url, { headers });
   if (!Array.isArray(rows) || rows.length === 0) {
     throw new Error("NREVSS rgnm-fkqb returned no rows for Region 6");
   }
@@ -164,14 +188,14 @@ async function fetchNationalFluSeries(): Promise<{
   latestWeek: string;
 }> {
   const token = process.env.CDC_APP_TOKEN;
-  const headers: Record<string, string> = {};
+  const headers: Record<string, string> = { "User-Agent": "luma-pediatric-pulse/1.0" };
   if (token) headers["X-App-Token"] = token;
 
   const url =
     `https://data.cdc.gov/resource/seuz-s2cv.json` +
     `?pathogen=Influenza&$order=week_end%20DESC&$limit=6`;
 
-  const rows = await fetchJson<SeuzRow[]>(url, { headers });
+  const rows = await fetchWithRetry<SeuzRow[]>("FluView seuz-s2cv", url, { headers });
   if (!Array.isArray(rows) || rows.length === 0) {
     throw new Error("seuz-s2cv returned no Influenza rows");
   }
@@ -192,10 +216,26 @@ export async function fetchCommunityVirusWatch(): Promise<CommunityVirusWatch> {
     throw new Error("communityVirusWatch baseline missing from mock data");
   }
 
-  const [region6, fluNational] = await Promise.all([
+  const [region6Result, fluResult] = await Promise.allSettled([
     fetchRegion6Series(),
     fetchNationalFluSeries(),
   ]);
+
+  const region6 =
+    region6Result.status === "fulfilled"
+      ? region6Result.value
+      : { byPathogen: {} as Record<string, { weeks: string[]; values: number[] }>, latestWeek: "" };
+  const fluNational =
+    fluResult.status === "fulfilled"
+      ? fluResult.value
+      : { weeks: [], values: [] as number[], latestWeek: "" };
+
+  if (region6Result.status === "rejected") {
+    console.warn("[community-viruses] NREVSS Region 6 fetch failed:", region6Result.reason);
+  }
+  if (fluResult.status === "rejected") {
+    console.warn("[community-viruses] FluView fetch failed:", fluResult.reason);
+  }
 
   const fluLatestWeek = fluNational.latestWeek;
   const fluLatest = fluNational.values[fluNational.values.length - 1] ?? NaN;
@@ -206,6 +246,9 @@ export async function fetchCommunityVirusWatch(): Promise<CommunityVirusWatch> {
     const name = base.name;
 
     if (name === "Influenza A" || name === "Influenza B") {
+      if (!Number.isFinite(fluLatest)) {
+        return base; // keep baseline if upstream failed
+      }
       return {
         ...base,
         level: fluLevel,
@@ -241,9 +284,8 @@ export async function fetchCommunityVirusWatch(): Promise<CommunityVirusWatch> {
     return base;
   });
 
-  const haveAnyReal = entries.some(
-    (e) => e.level !== "Unknown" || (e.positivityPct ?? -1) >= 0,
-  );
+  const haveAnyReal =
+    region6Result.status === "fulfilled" || fluResult.status === "fulfilled";
   const lastWeek = region6.latestWeek || fluLatestWeek;
 
   return {
@@ -252,8 +294,11 @@ export async function fetchCommunityVirusWatch(): Promise<CommunityVirusWatch> {
     entries,
     lastUpdated: todayIso(),
     stale: !haveAnyReal,
-    staleSince: undefined,
-    error: undefined,
+    staleSince: haveAnyReal ? undefined : todayIso(),
+    error:
+      region6Result.status === "rejected" && fluResult.status === "rejected"
+        ? `NREVSS: ${String(region6Result.reason)}; FluView: ${String(fluResult.reason)}`
+        : undefined,
     providerNote: lastWeek
       ? `Latest CDC NREVSS / FluView data for week ending ${lastWeek.slice(0, 10)}.`
       : baseline.providerNote,
