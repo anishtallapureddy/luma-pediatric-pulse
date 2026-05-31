@@ -58,6 +58,7 @@ const DISEASES: DiseaseSpec[] = [
       "MMR-preventable. Highly contagious; airborne. Confirm MMR1 (12-15 mo) and MMR2 (4-6 yr) at every visit.",
     suggestedProviderAction:
       "Verify MMR status, prompt catch-up doses, and review measles isolation/notification protocol with staff.",
+    // Measles: even 1 case warrants watch; baseline TX historically <10/yr.
     watchYtd: 1,
     outbreakYtd: 10,
   },
@@ -68,8 +69,9 @@ const DISEASES: DiseaseSpec[] = [
       "DTaP/Tdap-preventable. Infants under 2 mo are highest-risk. Confirm caregiver Tdap (cocooning).",
     suggestedProviderAction:
       "Low threshold for testing prolonged paroxysmal cough; confirm DTaP series and Tdap for adolescents.",
-    watchYtd: 50,
-    outbreakYtd: 200,
+    // TX baseline pertussis: 200-500/yr. Watch = >2x typical pace.
+    watchYtd: 400,
+    outbreakYtd: 1000,
   },
   {
     diseaseName: "Hepatitis A",
@@ -77,8 +79,9 @@ const DISEASES: DiseaseSpec[] = [
     vaccineRelevance: "HepA-preventable. Two-dose series starting at 12 mo.",
     suggestedProviderAction:
       "Confirm HepA series at well visits; emphasize for travel to endemic regions.",
-    watchYtd: 10,
-    outbreakYtd: 40,
+    // TX baseline HepA: 50-150/yr.
+    watchYtd: 75,
+    outbreakYtd: 200,
   },
   {
     diseaseName: "Varicella (chickenpox)",
@@ -87,8 +90,9 @@ const DISEASES: DiseaseSpec[] = [
       "Varicella-preventable. Two-dose series (12-15 mo, 4-6 yr).",
     suggestedProviderAction:
       "Confirm two-dose varicella status at school-age visits; counsel on rash isolation.",
-    watchYtd: 50,
-    outbreakYtd: 200,
+    // TX baseline varicella: ~200-500/yr.
+    watchYtd: 250,
+    outbreakYtd: 600,
   },
   {
     diseaseName: "Mumps",
@@ -97,8 +101,9 @@ const DISEASES: DiseaseSpec[] = [
       "MMR-preventable. Outbreaks often occur in close-contact settings (camps, schools).",
     suggestedProviderAction:
       "Confirm MMR2 in school-age and adolescents; review parotitis differential during outbreaks.",
-    watchYtd: 5,
-    outbreakYtd: 25,
+    // TX baseline mumps: 5-30/yr typical.
+    watchYtd: 15,
+    outbreakYtd: 50,
   },
   {
     diseaseName: "Invasive pneumococcal disease (age <5)",
@@ -110,8 +115,9 @@ const DISEASES: DiseaseSpec[] = [
       "PCV15/PCV20-preventable. Series at 2, 4, 6, 12-15 mo.",
     suggestedProviderAction:
       "Confirm PCV series; review post-splenectomy and high-risk indications.",
-    watchYtd: 10,
-    outbreakYtd: 30,
+    // TX baseline pediatric IPD: 20-50/yr.
+    watchYtd: 30,
+    outbreakYtd: 75,
   },
 ];
 
@@ -122,9 +128,7 @@ function classifyStatus(
   outbreak: number,
 ): VpdStatus {
   if (ytd >= outbreak) return "Active outbreak";
-  if (ytd >= watch || weeklyMax >= Math.max(2, Math.ceil(watch / 4))) {
-    return "Outbreak watch";
-  }
+  if (ytd >= watch) return "Outbreak watch";
   if (ytd > 0 || weeklyMax > 0) return "Sporadic";
   return "No recent cases";
 }
