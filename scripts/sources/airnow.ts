@@ -37,7 +37,10 @@ export async function fetchAirNow(): Promise<AirQuality> {
 
   const [obs, fcst] = await Promise.all([
     fetchJson<AirNowObservation[]>(obsUrl),
-    fetchJson<AirNowForecast[]>(fcstUrl),
+    fetchJson<AirNowForecast[]>(fcstUrl).catch((err) => {
+      console.warn(`[airnow] forecast unavailable, continuing with observation only: ${(err as Error).message}`);
+      return [] as AirNowForecast[];
+    }),
   ]);
 
   // Pick the dominant observation (highest AQI across reported parameters).
