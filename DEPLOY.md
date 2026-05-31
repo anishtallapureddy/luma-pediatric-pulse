@@ -84,10 +84,45 @@ per row:
 | `STAFF_EMAILS`          | comma-separated, e.g. `dr@luma...,frontdesk@luma...`                  | Optional  |
 | `EMAIL_FROM`            | e.g. `pulse@lumapediatrics.com` (verified Resend sender)              | Optional  |
 | `DASHBOARD_URL`         | `https://pulse.lumapediatrics.com/provider-health-watch/`             | Optional  |
+| `LUMA_SITE_DISPATCH_TOKEN` | fine-grained PAT, scope: `anishtallapureddy/luma-pediatrics`, `Contents: write` | Optional  |
 
 > Every secret is optional. Any fetcher whose secret is missing will fail
 > gracefully → the previous snapshot's section is kept. Email send is skipped
-> if `RESEND_API_KEY` or `STAFF_EMAILS` is missing.
+> if `RESEND_API_KEY` is missing. The `LUMA_SITE_DISPATCH_TOKEN` triggers an
+> immediate rebuild of `lumapediatrics.com/health-watch` after each new
+> snapshot; without it the parent page still refreshes via its own daily
+> 14:00 UTC cron.
+
+### 4a. Finishing the daily 7 AM staff email (current setup)
+
+The staff-email recipients and sender are already configured:
+
+| Secret          | Current value                                       |
+| --------------- | --------------------------------------------------- |
+| `STAFF_EMAILS`  | `anish@lumapediatrics.com,drt@lumapediatrics.com`   |
+| `EMAIL_FROM`    | `Luma Pediatric Pulse <onboarding@resend.dev>`      |
+| `DASHBOARD_URL` | `https://pulse.lumapediatrics.com/`                 |
+
+To turn on the daily 7 AM CST send, add one more secret:
+
+```bash
+# 1. Sign up at https://resend.com (free: 3,000 emails/month)
+# 2. Create an API key in the Resend dashboard
+# 3. Then run:
+gh secret set RESEND_API_KEY -R anishtallapureddy/luma-pediatric-pulse
+#    (paste the key when prompted)
+
+# 4. Verify with a manual test:
+gh workflow run "Refresh snapshot and email staff" -R anishtallapureddy/luma-pediatric-pulse
+gh run watch -R anishtallapureddy/luma-pediatric-pulse
+```
+
+The cron already runs at `0 12,13 * * *` UTC, which covers 7 AM CST (winter) and 7 AM CDT (summer). Once `RESEND_API_KEY` is set, the daily email goes out automatically the next morning at 7 AM.
+
+> **Branded sender (optional):** to send from `pulse@lumapediatrics.com`
+> instead of `onboarding@resend.dev`, add `lumapediatrics.com` as a verified
+> domain in Resend (3 DNS records: SPF, DKIM, return-path), then update the
+> `EMAIL_FROM` secret.
 
 ### 5. Trigger the first refresh
 
