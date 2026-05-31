@@ -51,7 +51,7 @@ jobs:
           fi
 
       - name: Send staff email
-        if: steps.commit.outputs.changed == 'true'
+        if: steps.commit.outputs.changed == 'true' && env.RESEND_API_KEY != ''
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           STAFF_EMAILS: ${{ secrets.STAFF_EMAILS }}
