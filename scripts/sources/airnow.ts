@@ -29,11 +29,11 @@ export async function fetchAirNow(): Promise<AirQuality> {
 
   const obsUrl =
     `https://www.airnowapi.org/aq/observation/zipCode/current/` +
-    `?format=application/json&zipCode=${zip}&distance=25&API_KEY=${apiKey}`;
+    `?format=application/json&zipCode=${zip}&distance=100&API_KEY=${apiKey}`;
 
   const fcstUrl =
     `https://www.airnowapi.org/aq/forecast/zipCode/` +
-    `?format=application/json&zipCode=${zip}&distance=25&API_KEY=${apiKey}`;
+    `?format=application/json&zipCode=${zip}&distance=100&API_KEY=${apiKey}`;
 
   const [obs, fcst] = await Promise.all([
     fetchJson<AirNowObservation[]>(obsUrl),
@@ -58,7 +58,7 @@ export async function fetchAirNow(): Promise<AirQuality> {
     .slice(0, 3)
     .map((f) => ({
       date: f.DateForecast,
-      aqi: f.AQI ?? 0,
+      aqi: (f.AQI ?? 0) < 0 ? 0 : (f.AQI ?? 0),
       category: f.Category?.Name ?? aqiCategory(f.AQI ?? 0),
     }));
 
