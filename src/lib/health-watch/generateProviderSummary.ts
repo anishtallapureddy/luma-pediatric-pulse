@@ -143,7 +143,7 @@ export function generateProviderSummary(
     headline = `Elevated clinic readiness: ${concerns.slice(0, 2).join(" and ")} signals active`;
   } else if (riskLevel === "Moderate") {
     const focus = concerns[0] ?? moderateConcerns[0] ?? "local health signals";
-    headline = `Moderate clinic readiness: ${focus} signal active in the McKinney area`;
+    headline = `Moderate clinic readiness: ${focus} signal active in the North Dallas area`;
   } else {
     headline = "Steady clinic readiness: local health signals look calm";
   }
@@ -151,7 +151,7 @@ export function generateProviderSummary(
   // Summary paragraph (calm, operational)
   const summaryParts: string[] = [];
   summaryParts.push(
-    `Air quality is currently ${airQuality.category.toLowerCase()} (AQI ${airQuality.currentAqi}) across the McKinney area.`,
+    `Air quality is currently ${airQuality.category.toLowerCase()} (AQI ${airQuality.currentAqi}) across the North Dallas area.`,
   );
   summaryParts.push(
     `Tree pollen is ${pollen.treeLevel.toLowerCase()} and grass pollen is ${pollen.grassLevel.toLowerCase()}.`,

@@ -132,7 +132,7 @@ export async function fetchCdcRespiratory(): Promise<RespiratoryIllness> {
     covidTrend,
     edRespiratoryVisitTrend,
     wastewaterTrend:
-      "Regional wastewater signal available at metro level only; not yet broken out by ZIP for the McKinney area.",
+      "Regional wastewater signal available at metro level only; not yet broken out by ZIP for the North Dallas area.",
     geography: "Texas (state-level hospitalization metrics)",
     weeklyTrend,
     providerNote,

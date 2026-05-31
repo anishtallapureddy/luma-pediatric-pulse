@@ -16,7 +16,7 @@ interface AirNowForecast {
 }
 
 /**
- * Fetches current AQI + 3-day forecast for McKinney from the EPA AirNow API.
+ * Fetches current AQI + 3-day forecast for the North Dallas area from the EPA AirNow API.
  * Free API key from https://docs.airnowapi.org/login (no credit card required).
  *
  * Env: AIRNOW_API_KEY

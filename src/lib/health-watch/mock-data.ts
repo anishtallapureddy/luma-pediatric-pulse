@@ -38,7 +38,7 @@ export const mockProviderHealthWatchData: ProviderHealthWatchData = {
       { date: ymd(addDays(today, 3)), aqi: 51, category: "Moderate" },
     ],
     providerNote:
-      "Air quality is in the Good range across the McKinney area. No additional asthma precautions indicated beyond routine asthma action plan use.",
+      "Air quality is in the Good range across the North Dallas area. No additional asthma precautions indicated beyond routine asthma action plan use.",
     source: "EPA AirNow",
     lastUpdated: iso(today),
   },
@@ -70,8 +70,8 @@ export const mockProviderHealthWatchData: ProviderHealthWatchData = {
     covidTrend: "Stable",
     edRespiratoryVisitTrend: "Rising",
     wastewaterTrend:
-      "Regional wastewater signal available at metro level only; not yet broken out by ZIP for the McKinney area.",
-    geography: "North DFW region (Collin County and surrounding counties)",
+      "Regional wastewater signal available at metro level only; not yet broken out by ZIP for the North Dallas area.",
+    geography: "North Dallas region (Collin County and surrounding counties)",
     weeklyTrend: [
       { weekLabel: "Wk -5", rsv: 2, flu: 3, covid: 2, edRespiratoryVisits: 5 },
       { weekLabel: "Wk -4", rsv: 3, flu: 3, covid: 2, edRespiratoryVisits: 6 },

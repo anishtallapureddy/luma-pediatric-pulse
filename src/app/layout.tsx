@@ -19,7 +19,7 @@ const body = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Luma Pediatric Pulse",
   description:
-    "Internal operational dashboard for Luma Pediatrics — local air quality, pollen, respiratory illness, vaccine-preventable disease, and pediatric medication signals for McKinney, TX.",
+    "Internal operational dashboard for Luma Pediatrics — local air quality, pollen, respiratory illness, vaccine-preventable disease, and pediatric medication signals for the North Dallas area.",
 };
 
 export default function RootLayout({

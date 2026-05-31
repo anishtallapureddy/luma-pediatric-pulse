@@ -47,7 +47,7 @@ export default function ProviderHealthWatchPage() {
           Pediatric Pulse · Daily local signal
         </p>
         <h1 className="mt-2 font-display text-4xl sm:text-[44px] lg:text-5xl text-luma-navy leading-[1.08] max-w-3xl">
-          What McKinney pediatric families are bringing in today.
+          What North Dallas pediatric families are bringing in today.
         </h1>
         <p className="mt-4 text-luma-navy/75 max-w-2xl text-base sm:text-lg leading-relaxed">
           A morning snapshot of air quality, pollen, respiratory illness,
