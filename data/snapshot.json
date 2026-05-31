@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-05-31T00:58:33.774Z",
-  "lastRefreshedAt": "2026-05-31T00:58:33.774Z",
+  "lastUpdated": "2026-05-31T01:40:53.173Z",
+  "lastRefreshedAt": "2026-05-31T01:40:53.173Z",
   "coverageArea": [
     "75071",
     "75069",
@@ -36,7 +36,10 @@
     ],
     "providerNote": "Air quality is in the Good range across the McKinney area. No additional asthma precautions indicated beyond routine asthma action plan use.",
     "source": "EPA AirNow",
-    "lastUpdated": "2026-05-31T00:58:33.774Z"
+    "lastUpdated": "2026-05-31T00:58:33.774Z",
+    "stale": true,
+    "staleSince": "2026-05-31T00:58:33.774Z",
+    "error": "AIRNOW_API_KEY not set"
   },
   "pollen": {
     "treeLevel": "High",
@@ -81,86 +84,90 @@
     ],
     "providerNote": "Tree pollen is high (oak, cedar, elm dominant). Expect more allergy-symptom and wheezing-related calls from patients with known asthma or allergic rhinitis.",
     "source": "Pollen API",
-    "lastUpdated": "2026-05-31T00:58:33.774Z"
+    "lastUpdated": "2026-05-31T00:58:33.774Z",
+    "stale": true,
+    "staleSince": "2026-05-31T00:58:33.774Z",
+    "error": "GOOGLE_POLLEN_API_KEY not set"
   },
   "respiratoryIllness": {
-    "rsvLevel": "Moderate",
-    "rsvTrend": "Rising",
+    "rsvLevel": "Low",
+    "rsvTrend": "Stable",
     "fluLevel": "Low",
     "fluTrend": "Stable",
     "covidLevel": "Low",
     "covidTrend": "Stable",
-    "edRespiratoryVisitTrend": "Rising",
+    "edRespiratoryVisitTrend": "Stable",
     "wastewaterTrend": "Regional wastewater signal available at metro level only; not yet broken out by ZIP for the McKinney area.",
-    "geography": "North DFW region (Collin County and surrounding counties)",
+    "geography": "Texas (state-level hospitalization metrics)",
     "weeklyTrend": [
       {
         "weekLabel": "Wk -5",
-        "rsv": 2,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 5
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       },
       {
         "weekLabel": "Wk -4",
-        "rsv": 3,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 6
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       },
       {
         "weekLabel": "Wk -3",
-        "rsv": 4,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 6
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       },
       {
         "weekLabel": "Wk -2",
-        "rsv": 5,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 7
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       },
       {
         "weekLabel": "Wk -1",
-        "rsv": 6,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 8
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       },
       {
         "weekLabel": "This wk",
-        "rsv": 7,
-        "flu": 3,
-        "covid": 2,
-        "edRespiratoryVisits": 9
+        "rsv": 0,
+        "flu": 0,
+        "covid": 0,
+        "edRespiratoryVisits": 0
       }
     ],
-    "providerNote": "Regional RSV activity is rising while flu and COVID remain low and stable. Anticipate more cough, congestion, wheezing, and fever-related calls; some signals are regional rather than ZIP-level.",
+    "providerNote": "Regional respiratory activity is stable across RSV, flu, and COVID.",
     "source": "CDC / Texas DSHS",
-    "lastUpdated": "2026-05-31T00:58:33.774Z"
+    "lastUpdated": "2026-05-31T01:40:53.173Z",
+    "stale": false
   },
   "drugShortages": {
-    "source": "FDA Drug Shortages",
-    "lastUpdated": "2026-05-31T00:58:33.774Z",
+    "source": "FDA Drug Shortages / openFDA",
+    "lastUpdated": "2026-05-31T01:40:50.273Z",
     "items": [
       {
         "drugName": "Amoxicillin (suspension)",
         "category": "Antibiotic",
-        "status": "Limited",
+        "status": "Available",
         "pediatricRelevance": "First-line for AOM, strep pharyngitis, CAP in many pediatric patients.",
         "suggestedProviderAction": "Confirm pharmacy availability before prescribing high-volume liquid formulations; consider alternative concentrations.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T01:40:49.537Z",
         "source": "FDA Drug Shortages"
       },
       {
         "drugName": "Amoxicillin-clavulanate (suspension)",
         "category": "Antibiotic",
-        "status": "Limited",
+        "status": "Available",
         "pediatricRelevance": "Common second-line for AOM and sinusitis when amoxicillin is insufficient.",
         "suggestedProviderAction": "Verify availability with local pharmacy before sending; have alternate regimens ready.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T01:40:49.646Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -168,8 +175,8 @@
         "category": "Antibiotic",
         "status": "Available",
         "pediatricRelevance": "Common penicillin alternative for AOM and sinusitis.",
-        "suggestedProviderAction": "Generally available; monitor for changes if amoxicillin demand surges.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "suggestedProviderAction": "Monitor for changes if amoxicillin demand surges.",
+        "lastUpdated": "2026-05-31T01:40:49.756Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -178,16 +185,16 @@
         "status": "Available",
         "pediatricRelevance": "Core rescue therapy for pediatric asthma and reactive airway disease.",
         "suggestedProviderAction": "Reinforce spacer use and asthma action plans; remind families to refill before respiratory season peaks.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T01:40:49.863Z",
         "source": "FDA Drug Shortages"
       },
       {
         "drugName": "Albuterol nebulizer solution",
         "category": "Bronchodilator",
-        "status": "Limited",
+        "status": "Available",
         "pediatricRelevance": "Used for in-clinic nebulizer treatments and home neb therapy in younger children.",
         "suggestedProviderAction": "Track on-hand clinic stock; prefer MDI + spacer when clinically appropriate.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T01:40:49.971Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -195,29 +202,30 @@
         "category": "Antiviral",
         "status": "Available",
         "pediatricRelevance": "Influenza treatment in eligible pediatric patients during flu season.",
-        "suggestedProviderAction": "Currently available; revisit if regional flu activity rises.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "suggestedProviderAction": "Revisit if regional flu activity rises.",
+        "lastUpdated": "2026-05-31T01:40:50.069Z",
         "source": "FDA Drug Shortages"
       },
       {
         "drugName": "Methylphenidate",
         "category": "ADHD stimulant",
-        "status": "Shortage",
+        "status": "Available",
         "pediatricRelevance": "Common ADHD therapy; shortages affect refill workflows and family planning.",
         "suggestedProviderAction": "Discuss formulation alternatives with family; coordinate with pharmacy before changing dose or product.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T01:40:50.169Z",
         "source": "FDA Drug Shortages"
       },
       {
         "drugName": "Amphetamine / dextroamphetamine",
         "category": "ADHD stimulant",
-        "status": "Shortage",
+        "status": "Available",
         "pediatricRelevance": "Alternate ADHD therapy; shortages affect refill and switching options.",
         "suggestedProviderAction": "Plan refill timing carefully; consider documented alternative regimens per family.",
-        "lastUpdated": "2026-05-31T00:58:33.774Z",
+        "lastUpdated": "2026-05-31T01:40:50.273Z",
         "source": "FDA Drug Shortages"
       }
-    ]
+    ],
+    "stale": false
   },
   "vaccinePreventable": {
     "source": "CDC NNDSS / Texas DSHS",
@@ -277,7 +285,10 @@
         "vaccineRelevance": "PCV15/PCV20-preventable. Series at 2, 4, 6, 12-15 mo.",
         "suggestedProviderAction": "Confirm PCV series; review post-splenectomy and high-risk indications."
       }
-    ]
+    ],
+    "stale": true,
+    "staleSince": "2026-05-31T00:58:33.774Z",
+    "error": "CDC_NNDSS_DATASET_ID not set (NNDSS dataset IDs rotate annually; set the current weekly cases dataset ID)."
   },
   "operationalRecommendations": [
     "Hold a few same-day sick visit slots if call volume rises this week.",
@@ -289,7 +300,7 @@
   ],
   "sources": [
     "EPA AirNow (air quality)",
-    "Pollen API (tree, grass, weed pollen levels)",
+    "Google Pollen API (tree, grass, weed pollen levels)",
     "CDC / Texas DSHS (respiratory illness surveillance)",
     "FDA Drug Shortages / openFDA (medication availability)",
     "CDC NNDSS / Texas DSHS (vaccine-preventable disease surveillance)"
