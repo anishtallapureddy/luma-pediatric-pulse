@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-07-29T14:26:43.816Z",
-  "lastRefreshedAt": "2026-07-29T14:26:43.816Z",
+  "lastUpdated": "2026-07-30T14:24:41.068Z",
+  "lastRefreshedAt": "2026-07-30T14:24:41.068Z",
   "coverageArea": [
     "75071",
     "75069",
@@ -14,15 +14,10 @@
     "75009"
   ],
   "airQuality": {
-    "currentAqi": 71,
+    "currentAqi": 61,
     "category": "Moderate",
     "primaryPollutant": "PM2.5",
     "forecast": [
-      {
-        "date": "2026-07-29",
-        "aqi": 0,
-        "category": "Moderate"
-      },
       {
         "date": "2026-07-30",
         "aqi": 0,
@@ -32,11 +27,16 @@
         "date": "2026-07-31",
         "aqi": 0,
         "category": "Moderate"
+      },
+      {
+        "date": "2026-08-01",
+        "aqi": 0,
+        "category": "Moderate"
       }
     ],
     "providerNote": "Air quality is in the Moderate range. Sensitive patients may notice mild symptoms.",
     "source": "EPA AirNow",
-    "lastUpdated": "2026-07-29T14:26:32.005Z",
+    "lastUpdated": "2026-07-30T14:24:28.819Z",
     "stale": false
   },
   "pollen": {
@@ -45,12 +45,6 @@
     "weedLevel": "Low",
     "dominantAllergens": [],
     "forecast": [
-      {
-        "date": "2026-07-29",
-        "tree": 0,
-        "grass": 0,
-        "weed": 0
-      },
       {
         "date": "2026-07-30",
         "tree": 0,
@@ -74,11 +68,17 @@
         "tree": 0,
         "grass": 0,
         "weed": 0
+      },
+      {
+        "date": "2026-08-03",
+        "tree": 0,
+        "grass": 0,
+        "weed": 0
       }
     ],
     "providerNote": "Pollen activity is low. No additional allergy planning indicated.",
     "source": "Google Pollen API",
-    "lastUpdated": "2026-07-29T14:26:32.137Z",
+    "lastUpdated": "2026-07-30T14:24:28.904Z",
     "stale": false
   },
   "respiratoryIllness": {
@@ -137,7 +137,7 @@
     ],
     "providerNote": "Regional respiratory activity is stable across RSV, flu, and COVID.",
     "source": "CDC / Texas DSHS",
-    "lastUpdated": "2026-07-29T14:26:43.674Z",
+    "lastUpdated": "2026-07-30T14:24:41.068Z",
     "stale": false
   },
   "communityVirusWatch": {
@@ -262,12 +262,12 @@
     ],
     "providerNote": "Latest CDC NREVSS / FluView data for week ending 2026-07-18.",
     "source": "CDC NREVSS / NoroSTAT / Texas DSHS",
-    "lastUpdated": "2026-07-29T14:26:33.252Z",
+    "lastUpdated": "2026-07-30T14:24:29.815Z",
     "stale": false
   },
   "drugShortages": {
     "source": "FDA Drug Shortages / openFDA",
-    "lastUpdated": "2026-07-29T14:26:32.772Z",
+    "lastUpdated": "2026-07-30T14:24:30.181Z",
     "items": [
       {
         "drugName": "Amoxicillin (suspension)",
@@ -275,7 +275,7 @@
         "status": "Available",
         "pediatricRelevance": "First-line for AOM, strep pharyngitis, CAP in many pediatric patients.",
         "suggestedProviderAction": "Confirm pharmacy availability before prescribing high-volume liquid formulations; consider alternative concentrations.",
-        "lastUpdated": "2026-07-29T14:26:32.050Z",
+        "lastUpdated": "2026-07-30T14:24:29.166Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -284,7 +284,7 @@
         "status": "Available",
         "pediatricRelevance": "Common second-line for AOM and sinusitis when amoxicillin is insufficient.",
         "suggestedProviderAction": "Verify availability with local pharmacy before sending; have alternate regimens ready.",
-        "lastUpdated": "2026-07-29T14:26:32.167Z",
+        "lastUpdated": "2026-07-30T14:24:29.357Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -293,7 +293,7 @@
         "status": "Available",
         "pediatricRelevance": "Common penicillin alternative for AOM and sinusitis.",
         "suggestedProviderAction": "Monitor for changes if amoxicillin demand surges.",
-        "lastUpdated": "2026-07-29T14:26:32.260Z",
+        "lastUpdated": "2026-07-30T14:24:29.496Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -302,7 +302,7 @@
         "status": "Available",
         "pediatricRelevance": "Core rescue therapy for pediatric asthma and reactive airway disease.",
         "suggestedProviderAction": "Reinforce spacer use and asthma action plans; remind families to refill before respiratory season peaks.",
-        "lastUpdated": "2026-07-29T14:26:32.344Z",
+        "lastUpdated": "2026-07-30T14:24:29.631Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -311,7 +311,7 @@
         "status": "Available",
         "pediatricRelevance": "Used for in-clinic nebulizer treatments and home neb therapy in younger children.",
         "suggestedProviderAction": "Track on-hand clinic stock; prefer MDI + spacer when clinically appropriate.",
-        "lastUpdated": "2026-07-29T14:26:32.436Z",
+        "lastUpdated": "2026-07-30T14:24:29.789Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -320,7 +320,7 @@
         "status": "Available",
         "pediatricRelevance": "Influenza treatment in eligible pediatric patients during flu season.",
         "suggestedProviderAction": "Revisit if regional flu activity rises.",
-        "lastUpdated": "2026-07-29T14:26:32.526Z",
+        "lastUpdated": "2026-07-30T14:24:29.917Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -329,7 +329,7 @@
         "status": "Available",
         "pediatricRelevance": "Common ADHD therapy; shortages affect refill workflows and family planning.",
         "suggestedProviderAction": "Discuss formulation alternatives with family; coordinate with pharmacy before changing dose or product.",
-        "lastUpdated": "2026-07-29T14:26:32.691Z",
+        "lastUpdated": "2026-07-30T14:24:30.051Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -338,7 +338,7 @@
         "status": "Available",
         "pediatricRelevance": "Alternate ADHD therapy; shortages affect refill and switching options.",
         "suggestedProviderAction": "Plan refill timing carefully; consider documented alternative regimens per family.",
-        "lastUpdated": "2026-07-29T14:26:32.772Z",
+        "lastUpdated": "2026-07-30T14:24:30.181Z",
         "source": "FDA Drug Shortages"
       }
     ],
@@ -346,31 +346,31 @@
   },
   "vaccinePreventable": {
     "source": "CDC NNDSS Weekly Data (Texas)",
-    "lastUpdated": "2026-07-29T14:26:43.816Z",
+    "lastUpdated": "2026-07-30T14:24:29.911Z",
     "items": [
       {
         "diseaseName": "Measles",
         "status": "Active outbreak",
         "recentCases": 46,
-        "priorYearCases": 778,
+        "priorYearCases": 781,
         "trend": "Stable",
-        "geography": "Texas (state-level, YTD through MMWR week 28)",
+        "geography": "Texas (state-level, YTD through MMWR week 29)",
         "vaccineRelevance": "MMR-preventable. Highly contagious; airborne. Confirm MMR1 (12-15 mo) and MMR2 (4-6 yr) at every visit.",
         "suggestedProviderAction": "Verify MMR status, prompt catch-up doses, and review measles isolation/notification protocol with staff.",
         "thresholdRationale": "CDC defines a measles outbreak as 3 or more epidemiologically-linked cases (CDC Manual for the Surveillance of Vaccine-Preventable Diseases, Ch. 7).",
-        "lastUpdated": "2026-07-29T14:26:43.815Z"
+        "lastUpdated": "2026-07-30T14:24:29.911Z"
       },
       {
         "diseaseName": "Pertussis (whooping cough)",
         "status": "Sporadic",
         "recentCases": 183,
-        "priorYearCases": 2352,
+        "priorYearCases": 2479,
         "trend": "Stable",
-        "geography": "Texas (state-level, YTD through MMWR week 28)",
+        "geography": "Texas (state-level, YTD through MMWR week 29)",
         "vaccineRelevance": "DTaP/Tdap-preventable. Infants under 2 mo are highest-risk. Confirm caregiver Tdap (cocooning).",
         "suggestedProviderAction": "Low threshold for testing prolonged paroxysmal cough; confirm DTaP series and Tdap for adolescents.",
-        "thresholdRationale": "183 cases YTD vs 2352 same period last year (at or below historical baseline).",
-        "lastUpdated": "2026-07-29T14:26:43.815Z"
+        "thresholdRationale": "183 cases YTD vs 2479 same period last year (at or below historical baseline).",
+        "lastUpdated": "2026-07-30T14:24:29.911Z"
       },
       {
         "diseaseName": "Hepatitis A",
@@ -378,23 +378,23 @@
         "recentCases": 33,
         "priorYearCases": 52,
         "trend": "Stable",
-        "geography": "Texas (state-level, YTD through MMWR week 28)",
+        "geography": "Texas (state-level, YTD through MMWR week 29)",
         "vaccineRelevance": "HepA-preventable. Two-dose series starting at 12 mo.",
         "suggestedProviderAction": "Confirm HepA series at well visits; emphasize for travel to endemic regions.",
         "thresholdRationale": "33 cases YTD vs 52 same period last year (at or below historical baseline).",
-        "lastUpdated": "2026-07-29T14:26:43.815Z"
+        "lastUpdated": "2026-07-30T14:24:29.911Z"
       },
       {
         "diseaseName": "Varicella (chickenpox)",
         "status": "Outbreak watch",
-        "recentCases": 250,
-        "priorYearCases": 248,
-        "trend": "Stable",
-        "geography": "Texas (state-level, YTD through MMWR week 28)",
+        "recentCases": 258,
+        "priorYearCases": 253,
+        "trend": "Decreasing",
+        "geography": "Texas (state-level, YTD through MMWR week 29)",
         "vaccineRelevance": "Varicella-preventable. Two-dose series (12-15 mo, 4-6 yr).",
         "suggestedProviderAction": "Confirm two-dose varicella status at school-age visits; counsel on rash isolation.",
-        "thresholdRationale": "250 cases YTD vs 248 same period last year (above prior-year baseline per CDC observed-vs-expected method).",
-        "lastUpdated": "2026-07-29T14:26:43.815Z"
+        "thresholdRationale": "258 cases YTD vs 253 same period last year (above prior-year baseline per CDC observed-vs-expected method).",
+        "lastUpdated": "2026-07-30T14:24:29.911Z"
       },
       {
         "diseaseName": "Mumps",
@@ -402,23 +402,23 @@
         "recentCases": 6,
         "priorYearCases": 19,
         "trend": "Stable",
-        "geography": "Texas (state-level, YTD through MMWR week 28)",
+        "geography": "Texas (state-level, YTD through MMWR week 29)",
         "vaccineRelevance": "MMR-preventable. Outbreaks often occur in close-contact settings (camps, schools).",
         "suggestedProviderAction": "Confirm MMR2 in school-age and adolescents; review parotitis differential during outbreaks.",
         "thresholdRationale": "6 cases YTD vs 19 same period last year (at or below historical baseline).",
-        "lastUpdated": "2026-07-29T14:26:43.815Z"
+        "lastUpdated": "2026-07-30T14:24:29.911Z"
       },
       {
         "diseaseName": "Invasive pneumococcal disease (age <5)",
         "status": "Sporadic",
-        "recentCases": 38,
-        "priorYearCases": 42,
-        "trend": "Decreasing",
-        "geography": "Texas (state-level, YTD through MMWR week 28)",
+        "recentCases": 39,
+        "priorYearCases": 44,
+        "trend": "Stable",
+        "geography": "Texas (state-level, YTD through MMWR week 29)",
         "vaccineRelevance": "PCV15/PCV20-preventable. Series at 2, 4, 6, 12-15 mo.",
         "suggestedProviderAction": "Confirm PCV series; review post-splenectomy and high-risk indications.",
-        "thresholdRationale": "38 cases YTD vs 42 same period last year (at or below historical baseline).",
-        "lastUpdated": "2026-07-29T14:26:43.816Z"
+        "thresholdRationale": "39 cases YTD vs 44 same period last year (at or below historical baseline).",
+        "lastUpdated": "2026-07-30T14:24:29.911Z"
       }
     ],
     "stale": false
