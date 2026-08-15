@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-08-14T13:23:44.065Z",
-  "lastRefreshedAt": "2026-08-14T13:23:44.065Z",
+  "lastUpdated": "2026-08-15T12:52:45.498Z",
+  "lastRefreshedAt": "2026-08-15T12:52:45.498Z",
   "coverageArea": [
     "75071",
     "75069",
@@ -14,15 +14,10 @@
     "75009"
   ],
   "airQuality": {
-    "currentAqi": 69,
+    "currentAqi": 58,
     "category": "Moderate",
     "primaryPollutant": "PM2.5",
     "forecast": [
-      {
-        "date": "2026-08-14",
-        "aqi": 0,
-        "category": "Good"
-      },
       {
         "date": "2026-08-15",
         "aqi": 0,
@@ -32,11 +27,16 @@
         "date": "2026-08-16",
         "aqi": 0,
         "category": "Moderate"
+      },
+      {
+        "date": "2026-08-17",
+        "aqi": 0,
+        "category": "Unhealthy for Sensitive Groups"
       }
     ],
     "providerNote": "Air quality is in the Moderate range. Sensitive patients may notice mild symptoms.",
     "source": "EPA AirNow",
-    "lastUpdated": "2026-08-14T13:23:31.585Z",
+    "lastUpdated": "2026-08-15T12:52:24.674Z",
     "stale": false
   },
   "pollen": {
@@ -47,12 +47,6 @@
       "Ragweed"
     ],
     "forecast": [
-      {
-        "date": "2026-08-14",
-        "tree": 0,
-        "grass": 0,
-        "weed": 2
-      },
       {
         "date": "2026-08-15",
         "tree": 0,
@@ -76,11 +70,17 @@
         "tree": 1,
         "grass": 1,
         "weed": 2
+      },
+      {
+        "date": "2026-08-19",
+        "tree": 1,
+        "grass": 1,
+        "weed": 2
       }
     ],
     "providerNote": "Pollen activity is moderate. Routine allergy guidance for sensitive families.",
     "source": "Google Pollen API",
-    "lastUpdated": "2026-08-14T13:23:31.747Z",
+    "lastUpdated": "2026-08-15T12:52:24.688Z",
     "stale": false
   },
   "respiratoryIllness": {
@@ -139,7 +139,7 @@
     ],
     "providerNote": "Regional respiratory activity is stable across RSV, flu, and COVID.",
     "source": "CDC / Texas DSHS",
-    "lastUpdated": "2026-08-14T13:23:44.065Z",
+    "lastUpdated": "2026-08-15T12:52:25.790Z",
     "stale": false
   },
   "communityVirusWatch": {
@@ -150,40 +150,40 @@
         "name": "RSV",
         "category": "respiratory",
         "level": "Low",
-        "trend": "Decreasing",
-        "positivityPct": 0.4,
+        "trend": "Stable",
+        "positivityPct": 0.3,
         "parentNote": "RSV is in its off-season. Very few cases circulating right now.",
-        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-01: 0.4% positivity, decreasing vs. prior weeks."
+        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-08: 0.3% positivity, stable vs. prior weeks."
       },
       {
         "key": "flu-a",
         "name": "Influenza A",
         "category": "respiratory",
         "level": "Low",
-        "trend": "Stable",
-        "positivityPct": 0.4,
+        "trend": "Decreasing",
+        "positivityPct": 0.5,
         "parentNote": "Flu A activity has tapered off for the season.",
-        "providerNote": "CDC national clinical-lab surveillance — week ending 2026-08-01: 0.4% positivity for influenza overall (Type A/B subtypes not separated in this feed), stable vs. prior weeks."
+        "providerNote": "CDC national clinical-lab surveillance — week ending 2026-08-08: 0.5% positivity for influenza overall (Type A/B subtypes not separated in this feed), decreasing vs. prior weeks."
       },
       {
         "key": "flu-b",
         "name": "Influenza B",
         "category": "respiratory",
         "level": "Low",
-        "trend": "Stable",
-        "positivityPct": 0.4,
+        "trend": "Decreasing",
+        "positivityPct": 0.5,
         "parentNote": "Flu B is uncommon right now.",
-        "providerNote": "CDC national clinical-lab surveillance — week ending 2026-08-01: 0.4% positivity for influenza overall (Type A/B subtypes not separated in this feed), stable vs. prior weeks."
+        "providerNote": "CDC national clinical-lab surveillance — week ending 2026-08-08: 0.5% positivity for influenza overall (Type A/B subtypes not separated in this feed), decreasing vs. prior weeks."
       },
       {
         "key": "covid",
         "name": "COVID-19",
         "category": "respiratory",
         "level": "Low",
-        "trend": "Rising",
-        "positivityPct": 1.6,
+        "trend": "Stable",
+        "positivityPct": 1.8,
         "parentNote": "COVID cases are low. Wastewater signal is also stable.",
-        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-01: 1.6% positivity, rising vs. prior weeks."
+        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-08: 1.8% positivity, stable vs. prior weeks."
       },
       {
         "key": "rhino-entero",
@@ -191,19 +191,19 @@
         "category": "respiratory",
         "level": "Very High",
         "trend": "Stable",
-        "positivityPct": 15.4,
+        "positivityPct": 16.3,
         "parentNote": "The common cold (rhinovirus) is the most active virus in our area right now.",
-        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-01: 15.4% positivity, stable vs. prior weeks."
+        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-08: 16.3% positivity, stable vs. prior weeks."
       },
       {
         "key": "hmpv",
         "name": "Human Metapneumovirus (hMPV)",
         "category": "respiratory",
         "level": "Low",
-        "trend": "Decreasing",
-        "positivityPct": 0,
+        "trend": "Stable",
+        "positivityPct": 0.3,
         "parentNote": "hMPV is winding down after its spring peak.",
-        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-01: 0.0% positivity, decreasing vs. prior weeks."
+        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-08: 0.3% positivity, stable vs. prior weeks."
       },
       {
         "key": "parainfluenza",
@@ -211,19 +211,19 @@
         "category": "respiratory",
         "level": "Low",
         "trend": "Stable",
-        "positivityPct": 1.9,
+        "positivityPct": 1.3,
         "parentNote": "Parainfluenza is rising — this is the main cause of croup (barky cough).",
-        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-01: 1.9% positivity, stable vs. prior weeks."
+        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-08: 1.3% positivity, stable vs. prior weeks."
       },
       {
         "key": "adenovirus",
         "name": "Adenovirus",
         "category": "respiratory",
         "level": "Low",
-        "trend": "Decreasing",
-        "positivityPct": 1,
+        "trend": "Rising",
+        "positivityPct": 1.3,
         "parentNote": "Adenovirus activity is low right now.",
-        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-01: 1.0% positivity, decreasing vs. prior weeks."
+        "providerNote": "CDC NREVSS (HHS Region 6 weekly % positivity) — week ending 2026-08-08: 1.3% positivity, rising vs. prior weeks."
       },
       {
         "key": "norovirus",
@@ -262,14 +262,14 @@
         "providerNote": "No public live regional surveillance feed for Fifth Disease (Parvovirus B19). CDC NoroSTAT and Texas DSHS bulletins update episodically; check those manually for outbreak alerts."
       }
     ],
-    "providerNote": "Latest CDC NREVSS / FluView data for week ending 2026-08-01.",
+    "providerNote": "Latest CDC NREVSS / FluView data for week ending 2026-08-08.",
     "source": "CDC NREVSS / NoroSTAT / Texas DSHS",
-    "lastUpdated": "2026-08-14T13:23:32.057Z",
+    "lastUpdated": "2026-08-15T12:52:45.498Z",
     "stale": false
   },
   "drugShortages": {
     "source": "FDA Drug Shortages / openFDA",
-    "lastUpdated": "2026-08-14T13:23:32.242Z",
+    "lastUpdated": "2026-08-15T12:52:25.198Z",
     "items": [
       {
         "drugName": "Amoxicillin (suspension)",
@@ -277,7 +277,7 @@
         "status": "Available",
         "pediatricRelevance": "First-line for AOM, strep pharyngitis, CAP in many pediatric patients.",
         "suggestedProviderAction": "Confirm pharmacy availability before prescribing high-volume liquid formulations; consider alternative concentrations.",
-        "lastUpdated": "2026-08-14T13:23:31.591Z",
+        "lastUpdated": "2026-08-15T12:52:24.575Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -286,7 +286,7 @@
         "status": "Available",
         "pediatricRelevance": "Common second-line for AOM and sinusitis when amoxicillin is insufficient.",
         "suggestedProviderAction": "Verify availability with local pharmacy before sending; have alternate regimens ready.",
-        "lastUpdated": "2026-08-14T13:23:31.674Z",
+        "lastUpdated": "2026-08-15T12:52:24.666Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -295,7 +295,7 @@
         "status": "Available",
         "pediatricRelevance": "Common penicillin alternative for AOM and sinusitis.",
         "suggestedProviderAction": "Monitor for changes if amoxicillin demand surges.",
-        "lastUpdated": "2026-08-14T13:23:31.754Z",
+        "lastUpdated": "2026-08-15T12:52:24.755Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -304,7 +304,7 @@
         "status": "Available",
         "pediatricRelevance": "Core rescue therapy for pediatric asthma and reactive airway disease.",
         "suggestedProviderAction": "Reinforce spacer use and asthma action plans; remind families to refill before respiratory season peaks.",
-        "lastUpdated": "2026-08-14T13:23:31.909Z",
+        "lastUpdated": "2026-08-15T12:52:24.845Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -313,7 +313,7 @@
         "status": "Available",
         "pediatricRelevance": "Used for in-clinic nebulizer treatments and home neb therapy in younger children.",
         "suggestedProviderAction": "Track on-hand clinic stock; prefer MDI + spacer when clinically appropriate.",
-        "lastUpdated": "2026-08-14T13:23:31.998Z",
+        "lastUpdated": "2026-08-15T12:52:24.931Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -322,7 +322,7 @@
         "status": "Available",
         "pediatricRelevance": "Influenza treatment in eligible pediatric patients during flu season.",
         "suggestedProviderAction": "Revisit if regional flu activity rises.",
-        "lastUpdated": "2026-08-14T13:23:32.080Z",
+        "lastUpdated": "2026-08-15T12:52:25.027Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -331,7 +331,7 @@
         "status": "Available",
         "pediatricRelevance": "Common ADHD therapy; shortages affect refill workflows and family planning.",
         "suggestedProviderAction": "Discuss formulation alternatives with family; coordinate with pharmacy before changing dose or product.",
-        "lastUpdated": "2026-08-14T13:23:32.158Z",
+        "lastUpdated": "2026-08-15T12:52:25.111Z",
         "source": "FDA Drug Shortages"
       },
       {
@@ -340,7 +340,7 @@
         "status": "Available",
         "pediatricRelevance": "Alternate ADHD therapy; shortages affect refill and switching options.",
         "suggestedProviderAction": "Plan refill timing carefully; consider documented alternative regimens per family.",
-        "lastUpdated": "2026-08-14T13:23:32.242Z",
+        "lastUpdated": "2026-08-15T12:52:25.198Z",
         "source": "FDA Drug Shortages"
       }
     ],
@@ -348,7 +348,7 @@
   },
   "vaccinePreventable": {
     "source": "CDC NNDSS Weekly Data (Texas)",
-    "lastUpdated": "2026-08-14T13:23:32.182Z",
+    "lastUpdated": "2026-08-15T12:52:25.201Z",
     "items": [
       {
         "diseaseName": "Measles",
@@ -360,7 +360,7 @@
         "vaccineRelevance": "MMR-preventable. Highly contagious; airborne. Confirm MMR1 (12-15 mo) and MMR2 (4-6 yr) at every visit.",
         "suggestedProviderAction": "Verify MMR status, prompt catch-up doses, and review measles isolation/notification protocol with staff.",
         "thresholdRationale": "CDC defines a measles outbreak as 3 or more epidemiologically-linked cases (CDC Manual for the Surveillance of Vaccine-Preventable Diseases, Ch. 7).",
-        "lastUpdated": "2026-08-14T13:23:32.182Z"
+        "lastUpdated": "2026-08-15T12:52:25.201Z"
       },
       {
         "diseaseName": "Pertussis (whooping cough)",
@@ -372,7 +372,7 @@
         "vaccineRelevance": "DTaP/Tdap-preventable. Infants under 2 mo are highest-risk. Confirm caregiver Tdap (cocooning).",
         "suggestedProviderAction": "Low threshold for testing prolonged paroxysmal cough; confirm DTaP series and Tdap for adolescents.",
         "thresholdRationale": "183 cases YTD vs 2674 same period last year (at or below historical baseline).",
-        "lastUpdated": "2026-08-14T13:23:32.182Z"
+        "lastUpdated": "2026-08-15T12:52:25.201Z"
       },
       {
         "diseaseName": "Hepatitis A",
@@ -384,7 +384,7 @@
         "vaccineRelevance": "HepA-preventable. Two-dose series starting at 12 mo.",
         "suggestedProviderAction": "Confirm HepA series at well visits; emphasize for travel to endemic regions.",
         "thresholdRationale": "34 cases YTD vs 53 same period last year (at or below historical baseline).",
-        "lastUpdated": "2026-08-14T13:23:32.182Z"
+        "lastUpdated": "2026-08-15T12:52:25.201Z"
       },
       {
         "diseaseName": "Varicella (chickenpox)",
@@ -396,7 +396,7 @@
         "vaccineRelevance": "Varicella-preventable. Two-dose series (12-15 mo, 4-6 yr).",
         "suggestedProviderAction": "Confirm two-dose varicella status at school-age visits; counsel on rash isolation.",
         "thresholdRationale": "267 cases YTD vs 264 same period last year (above prior-year baseline per CDC observed-vs-expected method).",
-        "lastUpdated": "2026-08-14T13:23:32.182Z"
+        "lastUpdated": "2026-08-15T12:52:25.201Z"
       },
       {
         "diseaseName": "Mumps",
@@ -408,7 +408,7 @@
         "vaccineRelevance": "MMR-preventable. Outbreaks often occur in close-contact settings (camps, schools).",
         "suggestedProviderAction": "Confirm MMR2 in school-age and adolescents; review parotitis differential during outbreaks.",
         "thresholdRationale": "7 cases YTD vs 20 same period last year (at or below historical baseline).",
-        "lastUpdated": "2026-08-14T13:23:32.182Z"
+        "lastUpdated": "2026-08-15T12:52:25.201Z"
       },
       {
         "diseaseName": "Invasive pneumococcal disease (age <5)",
@@ -420,7 +420,7 @@
         "vaccineRelevance": "PCV15/PCV20-preventable. Series at 2, 4, 6, 12-15 mo.",
         "suggestedProviderAction": "Confirm PCV series; review post-splenectomy and high-risk indications.",
         "thresholdRationale": "42 cases YTD vs 46 same period last year (at or below historical baseline).",
-        "lastUpdated": "2026-08-14T13:23:32.182Z"
+        "lastUpdated": "2026-08-15T12:52:25.201Z"
       }
     ],
     "stale": false
