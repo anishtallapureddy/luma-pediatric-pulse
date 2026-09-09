@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "sourceName": "CDC NREVSS",
+  "sourceUrl": "https://www.cdc.gov/nrevss/php/dashboard/index.html",
+  "geography": "Southern U.S. Census Region",
+  "testMethod": "PCR tests",
+  "metric": "Centered three-week moving average percent of PCR tests positive",
+  "sourceUpdated": "2026-09-04",
+  "importedAt": "2026-09-09T22:18:28.180Z",
+  "series": {
+    "Norovirus": [
+      {
+        "weekEnding": "2026-07-25",
+        "weeklyTestsReported": 1178,
+        "percentPositive": 6.2
+      },
+      {
+        "weekEnding": "2026-08-01",
+        "weeklyTestsReported": 1238,
+        "percentPositive": 6.54
+      },
+      {
+        "weekEnding": "2026-08-08",
+        "weeklyTestsReported": 1220,
+        "percentPositive": 5
+      },
+      {
+        "weekEnding": "2026-08-15",
+        "weeklyTestsReported": 1065,
+        "percentPositive": 5.35
+      },
+      {
+        "weekEnding": "2026-08-22",
+        "weeklyTestsReported": 809,
+        "percentPositive": 5.44
+      },
+      {
+        "weekEnding": "2026-08-29",
+        "weeklyTestsReported": 854,
+        "percentPositive": 4.92
+      }
+    ],
+    "Rotavirus": [
+      {
+        "weekEnding": "2026-07-25",
+        "weeklyTestsReported": 1123,
+        "percentPositive": 0.98
+      },
+      {
+        "weekEnding": "2026-08-01",
+        "weeklyTestsReported": 1174,
+        "percentPositive": 1.53
+      },
+      {
+        "weekEnding": "2026-08-08",
+        "weeklyTestsReported": 1156,
+        "percentPositive": 1.99
+      },
+      {
+        "weekEnding": "2026-08-15",
+        "weeklyTestsReported": 951,
+        "percentPositive": 1.47
+      },
+      {
+        "weekEnding": "2026-08-22",
+        "weeklyTestsReported": 752,
+        "percentPositive": 1.33
+      },
+      {
+        "weekEnding": "2026-08-29",
+        "weeklyTestsReported": 791,
+        "percentPositive": 3.16
+      }
+    ]
+  }
+}

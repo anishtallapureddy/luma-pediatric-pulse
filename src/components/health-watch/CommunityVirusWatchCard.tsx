@@ -1,29 +1,13 @@
 "use client";
 
-import {
-  Activity,
-  TrendingUp,
-  TrendingDown,
-  Minus,
-} from "lucide-react";
+import { Activity } from "lucide-react";
 import type {
   CommunityVirusWatch,
   CommunityVirusEntry,
-  TrendDirection,
   VirusCategory,
 } from "@/types/health-watch";
 import { cardClasses, signalBadgeClasses } from "./badgeStyles";
 import StaleBadge from "./StaleBadge";
-
-function TrendIcon({ trend }: { trend: TrendDirection }) {
-  if (trend === "Rising")
-    return <TrendingUp size={14} className="text-red-600" aria-label="Rising" />;
-  if (trend === "Decreasing")
-    return (
-      <TrendingDown size={14} className="text-emerald-600" aria-label="Decreasing" />
-    );
-  return <Minus size={14} className="text-luma-muted" aria-label="Stable" />;
-}
 
 const CATEGORY_LABELS: Record<VirusCategory, string> = {
   respiratory: "Respiratory viruses",
@@ -38,6 +22,11 @@ const CATEGORY_ORDER: VirusCategory[] = [
 ];
 
 function VirusRow({ v }: { v: CommunityVirusEntry }) {
+  const status =
+    v.statusLabel ??
+    (typeof v.positivityPct === "number" && v.trend
+      ? `${v.positivityPct.toFixed(1)}% positive · ${v.trend}`
+      : v.level);
   return (
     <div className="rounded-lg border border-luma-border bg-luma-cream-muted/40 px-3 py-2.5">
       <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -45,27 +34,26 @@ function VirusRow({ v }: { v: CommunityVirusEntry }) {
           <span className="text-sm font-semibold text-luma-navy truncate">
             {v.name}
           </span>
-          {typeof v.positivityPct === "number" && (
-            <span className="text-[11px] text-luma-muted whitespace-nowrap">
-              {v.positivityPct.toFixed(1)}% positivity
-            </span>
-          )}
         </div>
         <div className="flex items-center gap-2">
           <span
             className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold border ${signalBadgeClasses(v.level)}`}
           >
-            {v.level}
-          </span>
-          <span className="inline-flex items-center gap-1 text-[11px] text-luma-muted">
-            <TrendIcon trend={v.trend} />
-            {v.trend}
+            {status}
           </span>
         </div>
       </div>
       <p className="mt-1.5 text-xs text-luma-navy/80 leading-snug">
         {v.providerNote}
       </p>
+      {(v.sourceName || v.geography || v.sourceReportingDate) && (
+        <p className="mt-1.5 text-[11px] text-luma-muted leading-snug">
+          {[v.sourceName, v.geography, v.sourceReportingDate?.slice(0, 10)]
+            .filter(Boolean)
+            .join(" · ")}
+          {v.stale ? " · showing last-known-good value" : ""}
+        </p>
+      )}
     </div>
   );
 }
@@ -116,8 +104,8 @@ export default function CommunityVirusWatchCard({
         {data.providerNote}
       </p>
       <p className="mt-2 text-xs text-luma-muted">
-        Levels reflect regional surveillance (HHS Region 6 / Texas DSHS); local
-        ZIP-level data is not yet broken out for most signals.
+        Quantitative cards use laboratory test positivity. The display bands are
+        Luma-defined summaries, not CDC risk levels. Geography varies by card.
       </p>
     </section>
   );

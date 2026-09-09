@@ -25,6 +25,10 @@ export default function SourceFooter({ sources }: { sources: string[] }) {
       </div>
 
       <p className="mt-5 text-xs text-luma-muted leading-relaxed">
+        Data checked daily; source reporting schedules vary. Each quantitative
+        signal retains its source geography and reporting date.
+      </p>
+      <p className="mt-2 text-xs text-luma-muted leading-relaxed">
         Internal operational dashboard for Luma Pediatrics. Public health data
         is used for awareness and planning only. Clinical decisions should be
         based on provider judgment and patient-specific evaluation. Do not use

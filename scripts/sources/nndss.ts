@@ -2,7 +2,6 @@ import type {
   VaccinePreventableDisease,
   VaccinePreventableSection,
   VpdStatus,
-  TrendDirection,
 } from "../../src/types/health-watch";
 import { fetchJson, todayIso } from "./_common";
 
@@ -39,47 +38,27 @@ interface NndssRow {
 
 interface DiseaseSpec {
   diseaseName: string;
-  // Labels to sum (e.g., "Measles, Imported" + "Measles, Indigenous").
-  labelIncludes: string[];
+  // Each group is one additive component. Labels within a group are
+  // alternatives used by different NNDSS vintages and must not be summed.
+  labelGroups: string[][];
   vaccineRelevance: string;
   suggestedProviderAction: string;
-  /**
-   * If true, CDC's formal outbreak case-count definition applies:
-   *   Measles outbreak = ≥3 epidemiologically-linked cases
-   *   (CDC, "Manual for the Surveillance of Vaccine-Preventable Diseases",
-   *    Ch. 7 Measles). We cannot see epi-links from state YTD rollups, so
-   *    we treat ≥3 state cases as "Active outbreak" out of caution.
-   */
-  cdcCaseCountOutbreak?: { threshold: number; rationale: string };
 }
 
 const DEFAULT_DATASET_ID = "x9gk-5huc";
 
-/**
- * The minimum YTD case count at which a year-over-year ratio is considered
- * statistically meaningful. Below this floor we always report "Sporadic" to
- * prevent tiny absolute numbers (e.g. 2 cases this year vs 0 last year)
- * from triggering false-positive outbreak alerts.
- */
-const STATISTICAL_FLOOR = 5;
-
 const DISEASES: DiseaseSpec[] = [
   {
     diseaseName: "Measles",
-    labelIncludes: ["Measles, Indigenous", "Measles, Imported"],
+    labelGroups: [["Measles, Indigenous"], ["Measles, Imported"]],
     vaccineRelevance:
       "MMR-preventable. Highly contagious; airborne. Confirm MMR1 (12-15 mo) and MMR2 (4-6 yr) at every visit.",
     suggestedProviderAction:
       "Verify MMR status, prompt catch-up doses, and review measles isolation/notification protocol with staff.",
-    cdcCaseCountOutbreak: {
-      threshold: 3,
-      rationale:
-        "CDC defines a measles outbreak as 3 or more epidemiologically-linked cases (CDC Manual for the Surveillance of Vaccine-Preventable Diseases, Ch. 7).",
-    },
   },
   {
     diseaseName: "Pertussis (whooping cough)",
-    labelIncludes: ["Pertussis"],
+    labelGroups: [["Pertussis"]],
     vaccineRelevance:
       "DTaP/Tdap-preventable. Infants under 2 mo are highest-risk. Confirm caregiver Tdap (cocooning).",
     suggestedProviderAction:
@@ -87,14 +66,14 @@ const DISEASES: DiseaseSpec[] = [
   },
   {
     diseaseName: "Hepatitis A",
-    labelIncludes: ["Hepatitis A, Confirmed"],
+    labelGroups: [["Hepatitis A, Confirmed"]],
     vaccineRelevance: "HepA-preventable. Two-dose series starting at 12 mo.",
     suggestedProviderAction:
       "Confirm HepA series at well visits; emphasize for travel to endemic regions.",
   },
   {
     diseaseName: "Varicella (chickenpox)",
-    labelIncludes: ["Varicella disease", "Varicella morbidity"],
+    labelGroups: [["Varicella disease", "Varicella morbidity"]],
     vaccineRelevance:
       "Varicella-preventable. Two-dose series (12-15 mo, 4-6 yr).",
     suggestedProviderAction:
@@ -102,7 +81,7 @@ const DISEASES: DiseaseSpec[] = [
   },
   {
     diseaseName: "Mumps",
-    labelIncludes: ["Mumps"],
+    labelGroups: [["Mumps"]],
     vaccineRelevance:
       "MMR-preventable. Outbreaks often occur in close-contact settings (camps, schools).",
     suggestedProviderAction:
@@ -110,9 +89,9 @@ const DISEASES: DiseaseSpec[] = [
   },
   {
     diseaseName: "Invasive pneumococcal disease (age <5)",
-    labelIncludes: [
-      "Invasive pneumococcal disease, age <5 years, Confirmed",
-      "Invasive pneumococcal disease, age <5 years, Probable",
+    labelGroups: [
+      ["Invasive pneumococcal disease, age <5 years, Confirmed"],
+      ["Invasive pneumococcal disease, age <5 years, Probable"],
     ],
     vaccineRelevance:
       "PCV15/PCV20-preventable. Series at 2, 4, 6, 12-15 mo.",
@@ -121,82 +100,98 @@ const DISEASES: DiseaseSpec[] = [
   },
 ];
 
-/**
- * CDC observed-vs-expected surveillance methodology, applied at the state
- * level using the NNDSS dataset's own historical baseline (prior-year YTD
- * for the same MMWR week — field m4). This avoids invented thresholds.
- *
- * Levels:
- *   - Active outbreak: current YTD > 2× prior YTD  (CDC's "epidemic threshold"
- *     for many notifiable diseases is approximately 2× the historical baseline;
- *     see MMWR Notifiable Diseases Weekly Tables methodology).
- *   - Outbreak watch:  current YTD > prior YTD     (above last year's pace).
- *   - Sporadic:        any cases, or below floor.
- *   - No recent cases: zero YTD.
- *
- * For diseases with a formal CDC case-count outbreak definition (e.g. Measles
- * ≥3 cases), that takes precedence over the ratio test.
- */
 function classifyStatus(
   ytd: number,
   priorYtd: number,
-  spec: DiseaseSpec,
 ): { status: VpdStatus; rationale: string } {
-  if (spec.cdcCaseCountOutbreak && ytd >= spec.cdcCaseCountOutbreak.threshold) {
-    return {
-      status: "Active outbreak",
-      rationale: spec.cdcCaseCountOutbreak.rationale,
-    };
-  }
-
   if (ytd === 0) {
     return {
-      status: "No recent cases",
-      rationale: `No ${spec.diseaseName.toLowerCase()} cases reported in Texas year-to-date.`,
+      status: "No cases reported",
+      rationale:
+        "No cases are present in the current provisional Texas year-to-date total.",
     };
   }
 
-  if (ytd < STATISTICAL_FLOOR) {
+  if (ytd > priorYtd) {
     return {
-      status: "Sporadic",
-      rationale: `${ytd} case(s) year-to-date — below the threshold (${STATISTICAL_FLOOR}) at which year-over-year comparison is statistically meaningful.`,
-    };
-  }
-
-  if (priorYtd > 0 && ytd > priorYtd * 2) {
-    return {
-      status: "Active outbreak",
-      rationale: `${ytd} cases YTD vs ${priorYtd} same period last year (>2× prior year — CDC observed-vs-expected epidemic threshold).`,
-    };
-  }
-
-  if (priorYtd >= 0 && ytd > priorYtd) {
-    return {
-      status: "Outbreak watch",
-      rationale: `${ytd} cases YTD vs ${priorYtd} same period last year (above prior-year baseline per CDC observed-vs-expected method).`,
+      status: "Above prior-year pace",
+      rationale: `${ytd} provisional Texas cases YTD vs ${priorYtd} in the same period last year. This comparison is not an outbreak determination.`,
     };
   }
 
   return {
-    status: "Sporadic",
-    rationale: `${ytd} cases YTD vs ${priorYtd} same period last year (at or below historical baseline).`,
+    status: "Reported cases",
+    rationale: `${ytd} provisional Texas cases YTD vs ${priorYtd} in the same period last year. An official advisory is required to label an outbreak.`,
   };
 }
 
-function classifyTrend(currentWeek: number, prevMax: number): TrendDirection {
-  // If the latest week has 0 cases (very common — NNDSS state reports lag by 2-6 weeks),
-  // treat as Stable to avoid misleading "Decreasing" labels on real outbreaks.
-  if (currentWeek === 0) return "Stable";
-  if (prevMax === 0) return currentWeek > 0 ? "Rising" : "Stable";
-  if (currentWeek > prevMax * 1.15) return "Rising";
-  if (currentWeek < prevMax * 0.85) return "Decreasing";
-  return "Stable";
+function count(v: unknown): number | undefined {
+  if (v == null || v === "" || v === "-") return 0;
+  if (
+    typeof v === "string" &&
+    ["U", "N", "NN", "NA"].includes(v.trim().toUpperCase())
+  ) {
+    return undefined;
+  }
+  const n = Number(v);
+  return Number.isFinite(n) && n >= 0 ? n : undefined;
 }
 
-function num(v: unknown): number {
-  if (v == null) return 0;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : 0;
+interface DiseaseTotals {
+  week: number;
+  ytd: number;
+  priorYtd: number;
+}
+
+function latestCommonTotals(
+  spec: DiseaseSpec,
+  byLabel: Map<string, NndssRow[]>,
+): DiseaseTotals | undefined {
+  const usableByComponent = spec.labelGroups.map((alternatives) => {
+    const candidates = alternatives
+      .map((label) => {
+        const rows = byLabel.get(label) ?? [];
+        return new Map(
+          rows.flatMap((row) => {
+            const week = Number(row.week);
+            const ytd = count(row.m3);
+            const priorYtd = count(row.m4);
+            return Number.isFinite(week) &&
+              week > 0 &&
+              ytd !== undefined &&
+              priorYtd !== undefined
+              ? [[week, { ytd, priorYtd }] as const]
+              : [];
+          }),
+        );
+      })
+      .filter((rows) => rows.size > 0)
+      .sort(
+        (a, b) =>
+          Math.max(...b.keys()) - Math.max(...a.keys()),
+      );
+    return candidates[0];
+  });
+  if (usableByComponent.some((rows) => rows === undefined)) return undefined;
+  const components = usableByComponent as Array<
+    Map<number, { ytd: number; priorYtd: number }>
+  >;
+
+  const commonWeeks = [...components[0].keys()].filter((week) =>
+    components.every((rows) => rows.has(week)),
+  );
+  const week = commonWeeks.length > 0 ? Math.max(...commonWeeks) : undefined;
+  if (week === undefined) return undefined;
+
+  return components.reduce<DiseaseTotals>(
+    (totals, rows) => {
+      const value = rows.get(week)!;
+      totals.ytd += value.ytd;
+      totals.priorYtd += value.priorYtd;
+      return totals;
+    },
+    { week, ytd: 0, priorYtd: 0 },
+  );
 }
 
 async function fetchTexasNndssRows(): Promise<NndssRow[]> {
@@ -207,7 +202,7 @@ async function fetchTexasNndssRows(): Promise<NndssRow[]> {
 
   // Build OR clause across all relevant label variants.
   const labels = Array.from(
-    new Set(DISEASES.flatMap((d) => d.labelIncludes)),
+    new Set(DISEASES.flatMap((d) => d.labelGroups.flat())),
   );
   const labelClause = labels
     .map((l) => `label='${l.replace(/'/g, "''")}'`)
@@ -229,7 +224,8 @@ async function fetchTexasNndssRows(): Promise<NndssRow[]> {
 export async function fetchVaccinePreventable(): Promise<VaccinePreventableSection> {
   const rows = await fetchTexasNndssRows();
 
-  // Index rows by label, then collapse to (currentWeekCases, maxWeeklyYTD, ytdMaxAcrossWeeks).
+  // Index rows by label. Multi-label diseases are summed at their latest
+  // common usable week so revisions and component counts remain aligned.
   const byLabel = new Map<string, NndssRow[]>();
   for (const r of rows) {
     const label = r.label ?? "";
@@ -246,46 +242,37 @@ export async function fetchVaccinePreventable(): Promise<VaccinePreventableSecti
   const items: VaccinePreventableDisease[] = [];
 
   for (const spec of DISEASES) {
-    let currentWeekCases = 0;
-    let weeklyMax = 0;
-    let ytdMax = 0;
-    let priorYtdMax = 0;
-
-    for (const label of spec.labelIncludes) {
-      const labelRows = byLabel.get(label) ?? [];
-      for (const r of labelRows) {
-        const wk = Number(r.week ?? "0");
-        const m1 = num(r.m1);
-        const m2 = num(r.m2);
-        const m3 = num(r.m3);
-        const m4 = num(r.m4);
-        if (wk === latestWeek) currentWeekCases += m1;
-        if (m2 > weeklyMax) weeklyMax = m2;
-        if (m3 > ytdMax) ytdMax = m3;
-        if (m4 > priorYtdMax) priorYtdMax = m4;
-      }
-    }
-
-    const { status, rationale } = classifyStatus(ytdMax, priorYtdMax, spec);
-    const trend = classifyTrend(currentWeekCases, weeklyMax);
+    const totals = latestCommonTotals(spec, byLabel);
+    const classification = totals
+      ? classifyStatus(totals.ytd, totals.priorYtd)
+      : {
+          status: "Unknown" as VpdStatus,
+          rationale:
+            "A current comparable cumulative value was not available for every required NNDSS component.",
+        };
 
     items.push({
       diseaseName: spec.diseaseName,
-      status,
-      recentCases: ytdMax > 0 ? ytdMax : currentWeekCases,
-      priorYearCases: priorYtdMax,
-      trend,
-      geography: `Texas (state-level, YTD through MMWR week ${latestWeek || "?"})`,
+      status: classification.status,
+      recentCases: totals?.ytd,
+      priorYearCases: totals?.priorYtd,
+      geography: `Texas (state-level, YTD through MMWR week ${totals?.week ?? "unavailable"})`,
       vaccineRelevance: spec.vaccineRelevance,
       suggestedProviderAction: spec.suggestedProviderAction,
-      thresholdRationale: rationale,
+      thresholdRationale: classification.rationale,
       lastUpdated: todayIso(),
     });
   }
 
+  const fetchedAt = todayIso();
   return {
     source: "CDC NNDSS Weekly Data (Texas)",
-    lastUpdated: todayIso(),
+    sourceUrl: "https://data.cdc.gov/d/x9gk-5huc",
+    geography: "Texas",
+    reportingDate: `${new Date().getUTCFullYear()} MMWR week ${latestWeek || "unknown"}`,
+    fetchedAt,
+    metric: "Provisional year-to-date reported cases",
+    lastUpdated: fetchedAt,
     items,
   };
 }

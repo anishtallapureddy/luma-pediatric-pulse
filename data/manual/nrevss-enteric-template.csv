@@ -1,0 +1,16 @@
+# Copy this file, replace every example value from the official CDC NREVSS
+# enteric-virus dashboard, then validate it with:
+# npm run import:nrevss-enteric -- path/to/completed.csv --check
+virus,week_ending,weekly_tests_reported,percent_positive,geography,test_method,source_updated
+Norovirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Norovirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Norovirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Norovirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Norovirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Norovirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Rotavirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Rotavirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Rotavirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Rotavirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Rotavirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD
+Rotavirus,YYYY-MM-DD,REPLACE,REPLACE,Southern U.S. Census Region,PCR tests,YYYY-MM-DD

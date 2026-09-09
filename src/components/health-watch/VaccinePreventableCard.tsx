@@ -3,12 +3,6 @@ import type { VaccinePreventableSection } from "@/types/health-watch";
 import { cardClasses, vpdStatusClasses } from "./badgeStyles";
 import StaleBadge from "./StaleBadge";
 
-const trendLabel: Record<string, string> = {
-  Rising: "↑ Rising",
-  Stable: "→ Stable",
-  Decreasing: "↓ Decreasing",
-};
-
 export default function VaccinePreventableCard({
   data,
 }: {
@@ -40,7 +34,6 @@ export default function VaccinePreventableCard({
               <th className="py-2 pr-3 font-semibold">Disease</th>
               <th className="py-2 pr-3 font-semibold">Status</th>
               <th className="py-2 pr-3 font-semibold">YTD (vs prior yr)</th>
-              <th className="py-2 pr-3 font-semibold">Trend</th>
               <th className="py-2 pr-3 font-semibold">Vaccine relevance</th>
               <th className="py-2 pr-3 font-semibold">Suggested action</th>
             </tr>
@@ -70,15 +63,12 @@ export default function VaccinePreventableCard({
                   )}
                 </td>
                 <td className="py-3 pr-3 text-slate-700 tabular-nums">
-                  {v.recentCases}
+                  {v.recentCases ?? "Not reported"}
                   {typeof v.priorYearCases === "number" && (
                     <span className="text-slate-400 text-xs">
                       {" "}(vs {v.priorYearCases})
                     </span>
                   )}
-                </td>
-                <td className="py-3 pr-3 text-slate-600">
-                  {trendLabel[v.trend] ?? v.trend}
                 </td>
                 <td className="py-3 pr-3 text-slate-700">
                   {v.vaccineRelevance}
@@ -113,13 +103,13 @@ export default function VaccinePreventableCard({
               </span>
             </div>
             <div className="mt-2 text-sm text-slate-700">
-              <span className="font-semibold">YTD cases:</span> {v.recentCases}
+              <span className="font-semibold">YTD cases:</span>{" "}
+              {v.recentCases ?? "Not reported"}
               {typeof v.priorYearCases === "number" && (
                 <span className="text-slate-500">
                   {" "}(vs {v.priorYearCases} same period last year)
                 </span>
               )}
-              {" "}· {trendLabel[v.trend] ?? v.trend}
             </div>
             {v.thresholdRationale && (
               <p className="mt-1 text-xs text-slate-500 italic leading-snug">
@@ -139,18 +129,15 @@ export default function VaccinePreventableCard({
       </div>
 
       <p className="mt-4 text-xs text-slate-500 leading-relaxed">
-        State-level surveillance signal. ZIP-level outbreak detail is generally
-        not published publicly; coordinate with your local health department for
-        confirmed exposures or cluster reports.
+        These are provisional Texas case reports, not local case counts or
+        official outbreak determinations. Consult CDC, Texas DSHS, or the local
+        health department for confirmed outbreak notices.
       </p>
       <p className="mt-2 text-xs text-slate-400 leading-relaxed">
-        <span className="font-semibold">Methodology:</span> Status is derived from
-        CDC NNDSS observed-vs-expected comparison — current-year YTD cases vs the
-        same MMWR week in the prior year (NNDSS field <code>m4</code>). "Active
-        outbreak" = current YTD &gt; 2× prior YTD (CDC epidemic-threshold
-        convention) or, for measles, ≥3 cases (per CDC's Manual for the
-        Surveillance of Vaccine-Preventable Diseases, Ch. 7). No invented
-        thresholds.
+        <span className="font-semibold">Methodology:</span> Labels compare
+        current-year provisional Texas totals with the same MMWR week in the
+        prior year. They do not infer epidemiologic linkage or declare an
+        outbreak.
       </p>
     </section>
   );

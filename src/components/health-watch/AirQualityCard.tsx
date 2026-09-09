@@ -24,6 +24,9 @@ export default function AirQualityCard({ data }: { data: AirQuality }) {
               Air quality
             </h3>
             <p className="text-xs text-luma-muted">Source: {data.source}</p>
+            {data.geography && (
+              <p className="text-xs text-luma-muted">{data.geography}</p>
+            )}
           </div>
         </div>
         <StaleBadge meta={data} />
@@ -45,7 +48,7 @@ export default function AirQualityCard({ data }: { data: AirQuality }) {
 
       <div className="mt-5">
         <h4 className="text-xs font-semibold text-luma-navy uppercase tracking-wide">
-          3-day forecast
+          Available forecast
         </h4>
         <div className="mt-2 grid grid-cols-3 gap-2">
           {data.forecast.map((f) => (
@@ -57,7 +60,7 @@ export default function AirQualityCard({ data }: { data: AirQuality }) {
                 {format(new Date(f.date), "EEE")}
               </div>
               <div className="text-lg font-semibold text-luma-navy">
-                {f.aqi}
+                {typeof f.aqi === "number" ? f.aqi : "—"}
               </div>
               <div className="text-[10px] text-luma-muted">{f.category}</div>
             </div>
@@ -68,6 +71,11 @@ export default function AirQualityCard({ data }: { data: AirQuality }) {
       <p className="mt-4 text-sm text-luma-navy/80 leading-relaxed">
         {data.providerNote}
       </p>
+      {data.reportingDate && (
+        <p className="mt-2 text-xs text-luma-muted">
+          Observation date: {data.reportingDate.slice(0, 10)}
+        </p>
+      )}
     </section>
   );
 }

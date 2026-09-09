@@ -63,14 +63,12 @@ export function shortageStatusClasses(status: DrugShortageStatus): string {
 
 export function vpdStatusClasses(status: VpdStatus): string {
   switch (status) {
-    case "No recent cases":
+    case "No cases reported":
       return TONE.ok;
-    case "Sporadic":
+    case "Reported cases":
       return TONE.info;
-    case "Outbreak watch":
+    case "Above prior-year pace":
       return TONE.warn;
-    case "Active outbreak":
-      return TONE.alert;
     case "Unknown":
     default:
       return TONE.muted;

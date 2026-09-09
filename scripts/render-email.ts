@@ -57,7 +57,9 @@ export function renderTextEmail(
     lines.push("Community virus watch (elevated or rising):");
     for (const v of virusActive) {
       const pct = typeof v.positivityPct === "number" ? `, ${v.positivityPct.toFixed(1)}% positivity` : "";
-      lines.push(`  - ${v.name}: ${v.level} / ${v.trend}${pct}`);
+      lines.push(
+        `  - ${v.name}: ${v.level} / ${v.trend ?? "Not reported"}${pct}`,
+      );
     }
   }
 
@@ -70,14 +72,16 @@ export function renderTextEmail(
     for (const d of constrained) lines.push(`  - ${d.drugName}: ${d.status}`);
   }
 
-  const vpdActive = (data.vaccinePreventable?.items ?? []).filter(
-    (v) => v.status === "Active outbreak" || v.status === "Outbreak watch",
+  const vpdAbovePrior = (data.vaccinePreventable?.items ?? []).filter(
+    (v) => v.status === "Above prior-year pace",
   );
-  if (vpdActive.length) {
+  if (vpdAbovePrior.length) {
     lines.push("");
-    lines.push("Vaccine-preventable disease watch:");
-    for (const v of vpdActive)
-      lines.push(`  - ${v.diseaseName}: ${v.status} (${v.recentCases} recent cases, ${v.trend})`);
+    lines.push("Vaccine-preventable disease provisional Texas counts:");
+    for (const v of vpdAbovePrior)
+      lines.push(
+        `  - ${v.diseaseName}: ${v.status} (${v.recentCases ?? "not reported"} YTD cases)`,
+      );
   }
 
   const stale = staleNote(data);
@@ -141,7 +145,7 @@ export function renderHtmlEmail(
         <ul style="margin:8px 0 0 20px;padding:0;color:#0B1D3A;">${virusActive
           .map((v) => {
             const pct = typeof v.positivityPct === "number" ? ` · ${v.positivityPct.toFixed(1)}% positivity` : "";
-            return `<li style="margin:4px 0;"><strong>${escapeHtml(v.name)}</strong>: ${escapeHtml(v.level)} / ${escapeHtml(v.trend)}${pct}</li>`;
+            return `<li style="margin:4px 0;"><strong>${escapeHtml(v.name)}</strong>: ${escapeHtml(v.level)} / ${escapeHtml(v.trend ?? "Not reported")}${pct}</li>`;
           })
           .join("")}</ul></td></tr>`
     : "";

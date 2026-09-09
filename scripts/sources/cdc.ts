@@ -6,45 +6,27 @@ import type {
 import { fetchJson, todayIso } from "./_common";
 
 /**
- * Pulls weekly Texas hospitalization metrics (RSV / flu / COVID) from CDC's
- * open data.cdc.gov dataset and an ED-respiratory surrogate.
- *
- * Primary dataset (no key required, generous rate limits):
- *   https://data.cdc.gov/resource/aemt-mg7g.json
- *   "Weekly United States Hospitalization Metrics by Jurisdiction"
- *
- * Optional: CDC_APP_TOKEN env var avoids unauthenticated rate limit.
- *
- * If the dataset schema changes or the call fails, refresh-snapshot will mark
- * this section as stale and keep the previous values.
+ * Pulls weekly laboratory-confirmed respiratory hospitalization rates from
+ * Texas DSHS for Public Health Region 2/3, which includes Collin County.
  */
-interface CdcHospRow {
-  jurisdiction?: string;
-  week_end_date?: string;
-  weekly_actual_days_reporting_any_data?: string;
-  totalconfc19newadmped?: string;
-  totalconfflunewadmped?: string;
-  totalconfrsvnewadmped?: string;
-  totalconfc19newadm?: string;
-  totalconfflunewadm?: string;
-  totalconfrsvnewadm?: string;
+interface DshsHospitalizationAttributes {
+  week_ending?: number;
+  geo?: string;
+  covid_rate?: number;
+  flu_rate?: number;
+  rsv_rate?: number;
 }
 
-function pickNum(...vals: (string | undefined)[]): number {
-  for (const v of vals) {
-    if (v == null) continue;
-    const n = Number(v);
-    if (Number.isFinite(n)) return n;
+interface DshsHospitalizationResponse {
+  error?: { message?: string };
+  features?: Array<{ attributes?: DshsHospitalizationAttributes }>;
+}
+
+function rate(value: unknown, field: string): number {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
+    throw new Error(`Texas DSHS returned an invalid ${field}`);
   }
-  return 0;
-}
-
-function classifyLevel(value: number, lowMax: number, modMax: number): SignalLevel {
-  if (value <= 0) return "Low";
-  if (value <= lowMax) return "Low";
-  if (value <= modMax) return "Moderate";
-  if (value <= modMax * 2) return "High";
-  return "Very High";
+  return value;
 }
 
 function classifyTrend(series: number[]): TrendDirection {
@@ -58,85 +40,107 @@ function classifyTrend(series: number[]): TrendDirection {
   return "Stable";
 }
 
+function roundedRate(value: number): number {
+  return Number(value.toFixed(1));
+}
+
 export async function fetchCdcRespiratory(): Promise<RespiratoryIllness> {
-  const token = process.env.CDC_APP_TOKEN;
-  const headers: Record<string, string> = {};
-  if (token) headers["X-App-Token"] = token;
-
-  const url =
-    `https://data.cdc.gov/resource/aemt-mg7g.json` +
-    `?jurisdiction=TX&$order=week_end_date%20DESC&$limit=6`;
-
-  const rows = await fetchJson<CdcHospRow[]>(url, { headers });
-  if (!Array.isArray(rows) || rows.length === 0) {
-    throw new Error("CDC dataset returned no rows for TX");
+  const sourceUrl =
+    "https://services3.arcgis.com/vljlarU2635mITsl/arcgis/rest/services/" +
+    "COVID_Influenza_RSV_Hospitalization_Rates/FeatureServer/0";
+  const params = new URLSearchParams({
+    where: "geo='PHR 2/3'",
+    outFields: "week_ending,geo,covid_rate,flu_rate,rsv_rate",
+    returnGeometry: "false",
+    orderByFields: "week_ending DESC",
+    resultRecordCount: "6",
+    f: "json",
+  });
+  const response = await fetchJson<DshsHospitalizationResponse>(
+    `${sourceUrl}/query?${params.toString()}`,
+  );
+  if (response.error) {
+    throw new Error(
+      `Texas DSHS ArcGIS query failed: ${response.error.message ?? "unknown error"}`,
+    );
+  }
+  const attributes = (response.features ?? [])
+    .map((feature) => feature.attributes)
+    .filter(
+      (item): item is DshsHospitalizationAttributes =>
+        item !== undefined && typeof item.week_ending === "number",
+    );
+  if (attributes.length === 0) {
+    throw new Error("Texas DSHS returned no PHR 2/3 hospitalization rows");
   }
 
-  // Oldest week first for plotting
-  const weeks = rows.slice().reverse();
-
-  const rsvSeries = weeks.map((r) =>
-    pickNum(r.totalconfrsvnewadmped, r.totalconfrsvnewadm),
+  const weeks = attributes.sort(
+    (a, b) => (a.week_ending ?? 0) - (b.week_ending ?? 0),
   );
-  const fluSeries = weeks.map((r) =>
-    pickNum(r.totalconfflunewadmped, r.totalconfflunewadm),
-  );
-  const covidSeries = weeks.map((r) =>
-    pickNum(r.totalconfc19newadmped, r.totalconfc19newadm),
-  );
-  const edSeries = weeks.map(
+  const rsvSeries = weeks.map((row) => rate(row.rsv_rate, "RSV rate"));
+  const fluSeries = weeks.map((row) => rate(row.flu_rate, "influenza rate"));
+  const covidSeries = weeks.map((row) => rate(row.covid_rate, "COVID-19 rate"));
+  const combinedSeries = weeks.map(
     (_, i) => rsvSeries[i] + fluSeries[i] + covidSeries[i],
   );
 
   const latest = (s: number[]) => s[s.length - 1] ?? 0;
 
-  // Thresholds are pragmatic defaults for TX weekly admissions. Tune over time.
-  const rsvLevel = classifyLevel(latest(rsvSeries), 50, 200);
-  const fluLevel = classifyLevel(latest(fluSeries), 100, 400);
-  const covidLevel = classifyLevel(latest(covidSeries), 100, 400);
-
   const rsvTrend = classifyTrend(rsvSeries);
   const fluTrend = classifyTrend(fluSeries);
   const covidTrend = classifyTrend(covidSeries);
-  const edRespiratoryVisitTrend = classifyTrend(edSeries);
+  const hospitalAdmissionTrend = classifyTrend(combinedSeries);
 
   const weeklyTrend = weeks.map((r, i) => ({
     weekLabel:
       i === weeks.length - 1
         ? "This wk"
         : `Wk -${weeks.length - 1 - i}`,
-    rsv: rsvSeries[i] ?? 0,
-    flu: fluSeries[i] ?? 0,
-    covid: covidSeries[i] ?? 0,
-    edRespiratoryVisits: edSeries[i] ?? 0,
+    rsv: roundedRate(rsvSeries[i] ?? 0),
+    flu: roundedRate(fluSeries[i] ?? 0),
+    covid: roundedRate(covidSeries[i] ?? 0),
+    hospitalAdmissions: roundedRate(combinedSeries[i] ?? 0),
   }));
 
   const concerns: string[] = [];
   if (rsvTrend === "Rising") concerns.push("RSV rising");
   if (fluTrend === "Rising") concerns.push("flu rising");
   if (covidTrend === "Rising") concerns.push("COVID rising");
-  if (edRespiratoryVisitTrend === "Rising")
-    concerns.push("ED respiratory visits rising");
+  if (hospitalAdmissionTrend === "Rising")
+    concerns.push("combined hospital admission rate rising");
 
   const providerNote =
     concerns.length > 0
-      ? `Regional respiratory signals: ${concerns.join(", ")}. Anticipate more cough, congestion, wheezing, and fever-related calls.`
-      : "Regional respiratory activity is stable across RSV, flu, and COVID.";
+      ? `PHR 2/3 hospitalization signals: ${concerns.join(", ")}. Rates are weekly new laboratory-confirmed admissions per 100,000.`
+      : "PHR 2/3 hospitalization rates are stable across RSV, influenza, and COVID-19.";
+  const latestWeek = weeks[weeks.length - 1];
+  const reportingDate = new Date(latestWeek.week_ending!).toISOString();
+  const fetchedAt = todayIso();
 
   return {
-    rsvLevel,
+    rsvLevel: "Unknown" as SignalLevel,
     rsvTrend,
-    fluLevel,
+    fluLevel: "Unknown" as SignalLevel,
     fluTrend,
-    covidLevel,
+    covidLevel: "Unknown" as SignalLevel,
     covidTrend,
-    edRespiratoryVisitTrend,
+    hospitalAdmissionTrend,
+    currentHospitalizationRates: {
+      rsv: roundedRate(latest(rsvSeries)),
+      flu: roundedRate(latest(fluSeries)),
+      covid: roundedRate(latest(covidSeries)),
+      combined: roundedRate(latest(combinedSeries)),
+    },
     wastewaterTrend:
-      "Regional wastewater signal available at metro level only; not yet broken out by ZIP for the North Dallas area.",
-    geography: "Texas (state-level hospitalization metrics)",
+      "Wastewater is not included in this hospitalization dataset.",
+    geography: "Texas DSHS Public Health Region 2/3",
     weeklyTrend,
     providerNote,
-    source: "CDC / Texas DSHS",
-    lastUpdated: todayIso(),
+    source: "Texas DSHS respiratory hospitalization surveillance",
+    sourceUrl,
+    reportingDate,
+    fetchedAt,
+    metric: "Weekly new laboratory-confirmed hospital admissions per 100,000",
+    lastUpdated: fetchedAt,
   };
 }

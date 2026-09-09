@@ -54,6 +54,11 @@ export default function DrugShortageCard({
                   >
                     {d.status}
                   </span>
+                  {d.statusDetail && (
+                    <div className="mt-1 text-[11px] text-luma-muted leading-snug">
+                      {d.statusDetail}
+                    </div>
+                  )}
                 </td>
                 <td className="py-3 pr-3 text-luma-navy/80">
                   {d.pediatricRelevance}
@@ -89,6 +94,11 @@ export default function DrugShortageCard({
               <span className="font-semibold">Pediatric relevance: </span>
               {d.pediatricRelevance}
             </p>
+            {d.statusDetail && (
+              <p className="mt-1 text-xs text-luma-muted">
+                {d.statusDetail}
+              </p>
+            )}
             <p className="mt-1 text-sm text-luma-navy/80">
               <span className="font-semibold">Suggested action: </span>
               {d.suggestedProviderAction}
@@ -98,9 +108,9 @@ export default function DrugShortageCard({
       </div>
 
       <p className="mt-4 text-xs text-luma-muted leading-relaxed">
-        Provider-only reference. Verify with pharmacy or wholesaler reality
-        before changing prescribing workflows. This list is informational, not a
-        clinical guideline.
+        FDA status is national and presentation-specific, not local pharmacy
+        inventory. "Unknown" means the product was not listed in the queried FDA
+        records; it does not confirm availability.
       </p>
     </section>
   );

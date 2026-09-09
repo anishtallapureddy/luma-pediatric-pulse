@@ -34,7 +34,14 @@ async function tryFetch<T extends SourceMeta>(
   try {
     const fresh = await fn();
     console.log(`[ok] ${label}`);
-    return { ...fresh, stale: false, staleSince: undefined, error: undefined };
+    return {
+      ...fresh,
+      stale: fresh.stale ?? false,
+      staleSince: fresh.stale
+        ? fresh.staleSince ?? previous.staleSince ?? previous.lastUpdated
+        : undefined,
+      error: fresh.error,
+    };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     console.warn(`[stale] ${label}: ${msg}`);
@@ -63,7 +70,11 @@ async function main() {
       tryFetch("CDC respiratory", fetchCdcRespiratory, previous.respiratoryIllness),
       tryFetch("openFDA drug shortages", fetchDrugShortages, previous.drugShortages),
       tryFetch("CDC NNDSS (VPD)", fetchVaccinePreventable, previousVpd),
-      tryFetch("Community virus watch", fetchCommunityVirusWatch, previousVirusWatch),
+      tryFetch(
+        "Community virus watch",
+        () => fetchCommunityVirusWatch(previousVirusWatch),
+        previousVirusWatch,
+      ),
     ]);
 
   const now = todayIso();
@@ -83,11 +94,11 @@ async function main() {
       : mockProviderHealthWatchData.operationalRecommendations,
     sources: [
       "EPA AirNow (air quality)",
-      "Google Pollen API (tree, grass, weed pollen levels)",
-      "CDC / Texas DSHS (respiratory illness surveillance)",
-      "CDC NREVSS / NoroSTAT / Texas DSHS (community virus watch)",
-      "FDA Drug Shortages / openFDA (medication availability)",
-      "CDC NNDSS / Texas DSHS (vaccine-preventable disease surveillance)",
+      "Google Pollen API (modeled tree, grass, and weed forecast near McKinney)",
+      "Texas DSHS Public Health Region 2/3 (respiratory hospitalization rates)",
+      "CDC NREVSS and CDC national respiratory laboratory surveillance",
+      "FDA Drug Shortages / openFDA (national product status)",
+      "CDC NNDSS Weekly Data (Texas provisional counts)",
     ],
   };
 

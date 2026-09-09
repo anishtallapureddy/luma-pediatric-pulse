@@ -45,20 +45,20 @@ export default function ProviderHealthWatchPage() {
       {/* Hero */}
       <header className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-6">
         <p className="eyebrow text-luma-sage-hover">
-          Pediatric Pulse · Daily local signal
+          Pediatric Pulse · Daily source check
         </p>
         <h1 className="mt-2 font-display text-4xl sm:text-[44px] lg:text-5xl text-luma-navy leading-[1.08] max-w-3xl">
-          What North Dallas pediatric families are bringing in today.
+          What current public-health signals relevant to North Texas show.
         </h1>
         <p className="mt-4 text-luma-navy/75 max-w-2xl text-base sm:text-lg leading-relaxed">
-          A morning snapshot of air quality, pollen, respiratory illness,
-          vaccine-preventable activity, and pediatric medication signals — so
-          the clinic can plan triage, staffing, and prescribing with confidence.
+          A morning snapshot of air quality, pollen, respiratory
+          hospitalizations, laboratory surveillance, provisional disease
+          reports, and pediatric medication signals. Each section identifies
+          the geography it actually represents.
         </p>
         {refreshed && (
           <p className="mt-3 text-xs sm:text-sm text-luma-muted">
-            Refreshed {refreshed} CT · McKinney · Melissa · Anna · Prosper ·
-            Frisco · Celina · Van Alstyne · North DFW
+            Checked {refreshed} CT · source reporting schedules vary
           </p>
         )}
       </header>

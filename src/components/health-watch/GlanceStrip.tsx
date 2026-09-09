@@ -75,9 +75,11 @@ export default function GlanceStrip({
     return rank(lvl) > rank(max) ? lvl : max;
   }, "Low");
 
-  const respiratoryTrend = data.respiratoryIllness.edRespiratoryVisitTrend;
+  const respiratoryTrend = data.respiratoryIllness.hospitalAdmissionTrend;
   const respiratoryTone: Tone =
-    respiratoryTrend === "Rising"
+    data.respiratoryIllness.stale
+      ? "info"
+      : respiratoryTrend === "Rising"
       ? "alert"
       : signalTone(data.respiratoryIllness.rsvLevel) === "alert"
         ? "alert"
@@ -86,54 +88,77 @@ export default function GlanceStrip({
           : "ok";
 
   const vpdItems = data.vaccinePreventable?.items ?? [];
-  const vpdActive = vpdItems.filter((v) => v.status === "Active outbreak").length;
-  const vpdWatch = vpdItems.filter((v) => v.status === "Outbreak watch").length;
+  const vpdAbovePrior = vpdItems.filter(
+    (v) => v.status === "Above prior-year pace",
+  ).length;
+  const vpdReported = vpdItems.filter(
+    (v) => v.status === "Reported cases",
+  ).length;
   const vpdTone: Tone =
-    vpdActive > 0 ? "alert" : vpdWatch > 0 ? "warn" : "ok";
+    data.vaccinePreventable.stale || vpdAbovePrior === 0 ? "info" : "warn";
   const vpdValue =
-    vpdActive > 0
-      ? `${vpdActive} active`
-      : vpdWatch > 0
-        ? `${vpdWatch} watch`
-        : "All clear";
+    data.vaccinePreventable.stale
+      ? "Last available"
+      : vpdAbovePrior > 0
+      ? `${vpdAbovePrior} above prior year`
+      : `${vpdReported} with reports`;
   const vpdSub =
-    vpdActive > 0
-      ? "Active outbreak — verify vaccines"
-      : vpdWatch > 0
-        ? "Watch — confirm vax status"
-        : "No active VPD outbreak signals";
+    data.vaccinePreventable.stale
+      ? "Source stale"
+      : vpdAbovePrior > 0
+      ? "Texas provisional counts"
+      : "No outbreak inference";
 
   const constrained = data.drugShortages.items.filter(
     (d) => d.status === "Shortage" || d.status === "Limited",
   );
   const drugTone: Tone =
-    constrained.some((d) => d.status === "Shortage")
+    data.drugShortages.stale
+      ? "info"
+      : constrained.some((d) => d.status === "Shortage")
       ? "alert"
       : constrained.length > 0
         ? "warn"
-        : "ok";
+        : data.drugShortages.items.some((d) => d.status === "Unknown")
+          ? "info"
+          : "ok";
+  const unknownDrugs = data.drugShortages.items.filter(
+    (d) => d.status === "Unknown",
+  );
 
   const tiles: Tile[] = [
     {
       label: "Air quality",
-      value: `AQI ${data.airQuality.currentAqi}`,
-      sub: `${data.airQuality.category} · ${data.airQuality.primaryPollutant}`,
-      tone: aqiTone(data.airQuality.currentAqi),
+      value: data.airQuality.stale
+        ? "Last available"
+        : `AQI ${data.airQuality.currentAqi}`,
+      sub: data.airQuality.stale
+        ? `AQI ${data.airQuality.currentAqi} · source stale`
+        : `${data.airQuality.category} · ${data.airQuality.primaryPollutant}`,
+      tone: data.airQuality.stale
+        ? "info"
+        : aqiTone(data.airQuality.currentAqi),
       icon: <Wind size={18} aria-hidden />,
       href: "#air-quality",
     },
     {
       label: "Pollen peak",
-      value: pollenPeak,
-      sub: data.pollen.dominantAllergens.slice(0, 2).join(", ") || "—",
-      tone: signalTone(pollenPeak),
+      value: data.pollen.stale ? "Last available" : pollenPeak,
+      sub: data.pollen.stale
+        ? `${pollenPeak} · source stale`
+        : data.pollen.dominantAllergens.slice(0, 2).join(", ") || "—",
+      tone: data.pollen.stale ? "info" : signalTone(pollenPeak),
       icon: <Flower2 size={18} aria-hidden />,
       href: "#pollen",
     },
     {
       label: "Respiratory",
-      value: `RSV ${data.respiratoryIllness.rsvLevel}`,
-      sub: `ED visits ${respiratoryTrend.toLowerCase()}`,
+      value: data.respiratoryIllness.stale
+        ? "Last available"
+        : `${data.respiratoryIllness.currentHospitalizationRates.combined.toFixed(1)} /100k`,
+      sub: data.respiratoryIllness.stale
+        ? "Source stale"
+        : `Hospital admissions ${respiratoryTrend.toLowerCase()}`,
       tone: respiratoryTone,
       trend: respiratoryTrend,
       icon: <Activity size={18} aria-hidden />,
@@ -150,12 +175,20 @@ export default function GlanceStrip({
     {
       label: "Medications",
       value:
-        constrained.length === 0
-          ? "All available"
+        data.drugShortages.stale
+          ? "Last available"
+          : constrained.length === 0
+          ? unknownDrugs.length > 0
+            ? `${unknownDrugs.length} not listed`
+            : "No current flags"
           : `${constrained.length} constrained`,
       sub:
-        constrained.length === 0
-          ? "No shortage signals"
+        data.drugShortages.stale
+          ? "Source stale"
+          : constrained.length === 0
+          ? unknownDrugs.length > 0
+            ? "Local availability unknown"
+            : "No current FDA shortage flags"
           : constrained.slice(0, 2).map((d) => d.drugName.split(" ")[0]).join(", "),
       tone: drugTone,
       icon: <Pill size={18} aria-hidden />,

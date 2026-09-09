@@ -11,6 +11,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "refresh": "tsx scripts/refresh-snapshot.ts",
+    "import:nrevss-enteric": "tsx scripts/import-nrevss-enteric.ts",
     "send-email": "tsx scripts/send-staff-email.ts",
     "seed": "tsx scripts/_seed.ts"
   },

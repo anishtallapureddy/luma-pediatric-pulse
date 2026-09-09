@@ -112,6 +112,7 @@ export async function fetchPollen(): Promise<Pollen> {
         ? "Pollen activity is moderate. Routine allergy guidance for sensitive families."
         : "Pollen activity is low. No additional allergy planning indicated.";
 
+  const fetchedAt = todayIso();
   return {
     treeLevel,
     grassLevel,
@@ -120,6 +121,11 @@ export async function fetchPollen(): Promise<Pollen> {
     forecast,
     providerNote,
     source: "Google Pollen API",
-    lastUpdated: todayIso(),
+    sourceUrl: "https://developers.google.com/maps/documentation/pollen",
+    geography: "Modeled forecast near McKinney",
+    reportingDate: forecast[0]?.date,
+    fetchedAt,
+    metric: "Google pollen index forecast at an approximately 1 km grid",
+    lastUpdated: fetchedAt,
   };
 }

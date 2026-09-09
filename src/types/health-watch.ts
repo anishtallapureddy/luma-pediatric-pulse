@@ -19,6 +19,11 @@ export type DrugShortageStatus =
 export interface SourceMeta {
   source: string;
   lastUpdated: string;
+  sourceUrl?: string;
+  geography?: string;
+  reportingDate?: string;
+  fetchedAt?: string;
+  metric?: string;
   stale?: boolean;
   staleSince?: string;
   error?: string;
@@ -26,7 +31,7 @@ export interface SourceMeta {
 
 export interface AirQualityForecastPoint {
   date: string;
-  aqi: number;
+  aqi?: number;
   category: string;
 }
 
@@ -59,7 +64,9 @@ export interface RespiratoryWeeklyPoint {
   rsv: number;
   flu: number;
   covid: number;
-  edRespiratoryVisits: number;
+  hospitalAdmissions: number;
+  /** @deprecated Retained while older snapshots age out. */
+  edRespiratoryVisits?: number;
 }
 
 export interface RespiratoryIllness extends SourceMeta {
@@ -69,7 +76,15 @@ export interface RespiratoryIllness extends SourceMeta {
   fluTrend: TrendDirection;
   covidLevel: SignalLevel;
   covidTrend: TrendDirection;
-  edRespiratoryVisitTrend: TrendDirection;
+  hospitalAdmissionTrend: TrendDirection;
+  /** @deprecated Retained while older snapshots age out. */
+  edRespiratoryVisitTrend?: TrendDirection;
+  currentHospitalizationRates: {
+    rsv: number;
+    flu: number;
+    covid: number;
+    combined: number;
+  };
   wastewaterTrend: string;
   geography: string;
   weeklyTrend: RespiratoryWeeklyPoint[];
@@ -84,6 +99,7 @@ export interface DrugShortage {
   suggestedProviderAction: string;
   lastUpdated: string;
   source: string;
+  statusDetail?: string;
 }
 
 export interface DrugShortagesSection extends SourceMeta {
@@ -91,19 +107,18 @@ export interface DrugShortagesSection extends SourceMeta {
 }
 
 export type VpdStatus =
-  | "No recent cases"
-  | "Sporadic"
-  | "Outbreak watch"
-  | "Active outbreak"
+  | "No cases reported"
+  | "Reported cases"
+  | "Above prior-year pace"
   | "Unknown";
 
 export interface VaccinePreventableDisease {
   diseaseName: string;
   status: VpdStatus;
-  recentCases: number;
+  recentCases?: number;
   /** Same-period (YTD) cases reported in the prior year, for CDC observed-vs-expected comparison. */
   priorYearCases?: number;
-  trend: TrendDirection;
+  trend?: TrendDirection;
   geography: string;
   vaccineRelevance: string;
   suggestedProviderAction: string;
@@ -145,13 +160,35 @@ export type VirusCategory =
   | "gastrointestinal"
   | "other-pediatric";
 
+export type SurveillanceKind =
+  | "quantitative"
+  | "regional"
+  | "seasonal"
+  | "limited";
+
+export interface CommunityVirusWeeklyPoint {
+  weekEnding: string;
+  value: number;
+  weeklyTestsReported?: number;
+}
+
 export interface CommunityVirusEntry {
   key: string;
   name: string;
   category: VirusCategory;
   level: SignalLevel;
-  trend: TrendDirection;
+  trend?: TrendDirection;
   positivityPct?: number;
+  statusLabel?: string;
+  surveillanceKind?: SurveillanceKind;
+  sourceName?: string;
+  sourceUrl?: string;
+  geography?: string;
+  sourceReportingDate?: string;
+  fetchedAt?: string;
+  metric?: string;
+  weeklyValues?: CommunityVirusWeeklyPoint[];
+  stale?: boolean;
   parentNote: string;
   providerNote: string;
 }
