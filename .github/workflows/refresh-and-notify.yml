@@ -59,6 +59,15 @@ jobs:
           DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
         run: npm run send-email
 
+      - name: Deploy refreshed Pulse snapshot
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST \
+            "repos/${{ github.repository }}/dispatches" \
+            -f event_type=pulse-snapshot-updated
+
       - name: Notify lumapediatrics.com to rebuild
         if: steps.commit.outputs.changed == 'true'
         env:
