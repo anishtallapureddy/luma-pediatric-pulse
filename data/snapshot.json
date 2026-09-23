@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-09-22T16:47:17.914Z",
-  "lastRefreshedAt": "2026-09-22T16:47:17.914Z",
+  "lastUpdated": "2026-09-23T16:44:14.430Z",
+  "lastRefreshedAt": "2026-09-23T16:44:14.430Z",
   "coverageArea": [
     "75071",
     "75069",
@@ -14,14 +14,10 @@
     "75009"
   ],
   "airQuality": {
-    "currentAqi": 52,
+    "currentAqi": 64,
     "category": "Moderate",
     "primaryPollutant": "PM2.5",
     "forecast": [
-      {
-        "date": "2026-09-22",
-        "category": "Unhealthy for Sensitive Groups"
-      },
       {
         "date": "2026-09-23",
         "category": "Unhealthy for Sensitive Groups"
@@ -29,16 +25,20 @@
       {
         "date": "2026-09-24",
         "category": "Unhealthy for Sensitive Groups"
+      },
+      {
+        "date": "2026-09-25",
+        "category": "Unhealthy for Sensitive Groups"
       }
     ],
     "providerNote": "Air quality is in the Moderate range. Sensitive patients may notice mild symptoms.",
     "source": "EPA AirNow",
     "sourceUrl": "https://www.airnow.gov/",
     "geography": "Dallas-Fort Worth",
-    "reportingDate": "2026-09-22",
-    "fetchedAt": "2026-09-22T16:46:57.010Z",
+    "reportingDate": "2026-09-23",
+    "fetchedAt": "2026-09-23T16:44:08.273Z",
     "metric": "Air Quality Index (AQI), preliminary AirNow observation",
-    "lastUpdated": "2026-09-22T16:46:57.010Z",
+    "lastUpdated": "2026-09-23T16:44:08.273Z",
     "stale": false
   },
   "pollen": {
@@ -51,12 +51,6 @@
       "Grasses"
     ],
     "forecast": [
-      {
-        "date": "2026-09-22",
-        "tree": 4,
-        "grass": 3,
-        "weed": 4
-      },
       {
         "date": "2026-09-23",
         "tree": 5,
@@ -80,16 +74,22 @@
         "tree": 5,
         "grass": 3,
         "weed": 4
+      },
+      {
+        "date": "2026-09-27",
+        "tree": 4,
+        "grass": 3,
+        "weed": 4
       }
     ],
     "providerNote": "Pollen is very high (Elm, Ragweed, Grasses prominent). Expect more allergy-symptom and wheezing-related calls.",
     "source": "Google Pollen API",
     "sourceUrl": "https://developers.google.com/maps/documentation/pollen",
     "geography": "Modeled forecast near McKinney",
-    "reportingDate": "2026-09-22",
-    "fetchedAt": "2026-09-22T16:46:57.084Z",
+    "reportingDate": "2026-09-23",
+    "fetchedAt": "2026-09-23T16:44:08.382Z",
     "metric": "Google pollen index forecast at an approximately 1 km grid",
-    "lastUpdated": "2026-09-22T16:46:57.084Z",
+    "lastUpdated": "2026-09-23T16:44:08.382Z",
     "stale": false
   },
   "respiratoryIllness": {
@@ -156,9 +156,9 @@
     "source": "Texas DSHS respiratory hospitalization surveillance",
     "sourceUrl": "https://services3.arcgis.com/vljlarU2635mITsl/arcgis/rest/services/COVID_Influenza_RSV_Hospitalization_Rates/FeatureServer/0",
     "reportingDate": "2026-09-12T05:00:00.000Z",
-    "fetchedAt": "2026-09-22T16:46:57.114Z",
+    "fetchedAt": "2026-09-23T16:44:08.390Z",
     "metric": "Weekly new laboratory-confirmed hospital admissions per 100,000",
-    "lastUpdated": "2026-09-22T16:46:57.114Z",
+    "lastUpdated": "2026-09-23T16:44:08.390Z",
     "stale": false
   },
   "communityVirusWatch": {
@@ -166,9 +166,9 @@
     "sourceUrl": "https://www.cdc.gov/nrevss/php/dashboard/index.html",
     "geography": "Texas, HHS Region 6, and United States; see each card",
     "reportingDate": "2026-09-12T00:00:00.000",
-    "fetchedAt": "2026-09-22T16:46:56.766Z",
+    "fetchedAt": "2026-09-23T16:44:07.796Z",
     "metric": "Laboratory test positivity; metric and geography vary by virus",
-    "lastUpdated": "2026-09-22T16:46:56.766Z",
+    "lastUpdated": "2026-09-23T16:44:07.796Z",
     "entries": [
       {
         "key": "rsv",
@@ -181,7 +181,7 @@
         "sourceName": "CDC NREVSS",
         "geography": "Texas",
         "sourceReportingDate": "2026-09-12T00:00:00.000",
-        "fetchedAt": "2026-09-22T16:46:56.766Z",
+        "fetchedAt": "2026-09-23T16:44:07.796Z",
         "metric": "Centered three-week average percent of NAAT laboratory tests positive",
         "parentNote": "RSV laboratory test positivity is stable in Texas.",
         "providerNote": "CDC NREVSS, Texas, week ending 2026-09-12: 0.7% of reported tests were positive.",
@@ -226,7 +226,7 @@
         "sourceName": "CDC national respiratory laboratory surveillance",
         "geography": "United States",
         "sourceReportingDate": "2026-09-12T00:00:00.000",
-        "fetchedAt": "2026-09-22T16:46:56.766Z",
+        "fetchedAt": "2026-09-23T16:44:07.796Z",
         "metric": "Percent of clinical laboratory influenza tests positive",
         "parentNote": "Influenza laboratory test positivity is increasing in the United States.",
         "providerNote": "CDC national respiratory laboratory surveillance, United States, week ending 2026-09-12: 1.8% of reported tests were positive.",
@@ -271,7 +271,7 @@
         "sourceName": "CDC NREVSS",
         "geography": "Texas",
         "sourceReportingDate": "2026-09-12T00:00:00.000",
-        "fetchedAt": "2026-09-22T16:46:56.766Z",
+        "fetchedAt": "2026-09-23T16:44:07.796Z",
         "metric": "Centered three-week average percent of NAAT laboratory tests positive",
         "parentNote": "COVID-19 laboratory test positivity is stable in Texas.",
         "providerNote": "CDC NREVSS, Texas, week ending 2026-09-12: 7.5% of reported tests were positive.",
@@ -316,7 +316,7 @@
         "sourceName": "CDC NREVSS",
         "geography": "HHS Region 6 (AR, LA, NM, OK, TX)",
         "sourceReportingDate": "2026-09-12T00:00:00.000",
-        "fetchedAt": "2026-09-22T16:46:56.766Z",
+        "fetchedAt": "2026-09-23T16:44:07.796Z",
         "metric": "Weekly percent of NAAT laboratory tests positive",
         "parentNote": "Rhinovirus / Enterovirus laboratory test positivity is increasing in HHS Region 6 (AR, LA, NM, OK, TX).",
         "providerNote": "CDC NREVSS, HHS Region 6 (AR, LA, NM, OK, TX), week ending 2026-09-12: 43.5% of reported tests were positive.",
@@ -361,7 +361,7 @@
         "sourceName": "CDC NREVSS",
         "geography": "HHS Region 6 (AR, LA, NM, OK, TX)",
         "sourceReportingDate": "2026-09-12T00:00:00.000",
-        "fetchedAt": "2026-09-22T16:46:56.766Z",
+        "fetchedAt": "2026-09-23T16:44:07.796Z",
         "metric": "Weekly percent of NAAT laboratory tests positive",
         "parentNote": "Human Metapneumovirus (hMPV) laboratory test positivity is stable in HHS Region 6 (AR, LA, NM, OK, TX).",
         "providerNote": "CDC NREVSS, HHS Region 6 (AR, LA, NM, OK, TX), week ending 2026-09-12: 0.8% of reported tests were positive.",
@@ -406,7 +406,7 @@
         "sourceName": "CDC NREVSS",
         "geography": "HHS Region 6 (AR, LA, NM, OK, TX)",
         "sourceReportingDate": "2026-09-12T00:00:00.000",
-        "fetchedAt": "2026-09-22T16:46:56.766Z",
+        "fetchedAt": "2026-09-23T16:44:07.796Z",
         "metric": "Weekly percent of NAAT laboratory tests positive",
         "parentNote": "Parainfluenza laboratory test positivity is increasing in HHS Region 6 (AR, LA, NM, OK, TX).",
         "providerNote": "CDC NREVSS, HHS Region 6 (AR, LA, NM, OK, TX), week ending 2026-09-12: 3.1% of reported tests were positive.",
@@ -451,7 +451,7 @@
         "sourceName": "CDC NREVSS",
         "geography": "HHS Region 6 (AR, LA, NM, OK, TX)",
         "sourceReportingDate": "2026-09-12T00:00:00.000",
-        "fetchedAt": "2026-09-22T16:46:56.766Z",
+        "fetchedAt": "2026-09-23T16:44:07.796Z",
         "metric": "Weekly percent of NAAT laboratory tests positive",
         "parentNote": "Adenovirus laboratory test positivity is stable in HHS Region 6 (AR, LA, NM, OK, TX).",
         "providerNote": "CDC NREVSS, HHS Region 6 (AR, LA, NM, OK, TX), week ending 2026-09-12: 6.7% of reported tests were positive.",
@@ -599,7 +599,7 @@
         "parentNote": "HFMD commonly circulates in summer and fall, especially in childcare and school settings.",
         "providerNote": "Seasonal watch only. Do not infer a local outbreak without an official Texas DSHS or local health department notice.",
         "sourceUrl": "https://www.cdc.gov/hand-foot-mouth/about/index.html",
-        "fetchedAt": "2026-09-22T16:46:56.766Z",
+        "fetchedAt": "2026-09-23T16:44:07.796Z",
         "metric": "Seasonal context only; no routine local prevalence feed",
         "stale": false
       },
@@ -615,7 +615,7 @@
         "parentNote": "Routine local Parvovirus B19 surveillance is limited, so a reliable current local activity level is not available.",
         "providerNote": "Parvovirus B19 is not nationally notifiable and has no routine U.S. surveillance feed. Use official health advisories only when issued.",
         "sourceUrl": "https://www.cdc.gov/parvovirus-b19/about/index.html",
-        "fetchedAt": "2026-09-22T16:46:56.766Z",
+        "fetchedAt": "2026-09-23T16:44:07.796Z",
         "metric": "No routine public surveillance signal",
         "stale": false
       }
@@ -628,10 +628,10 @@
     "source": "FDA Drug Shortages / openFDA",
     "sourceUrl": "https://open.fda.gov/apis/drug/drugshortages/",
     "geography": "United States",
-    "reportingDate": "2026-09-22",
-    "fetchedAt": "2026-09-22T16:46:58.582Z",
+    "reportingDate": "2026-09-23",
+    "fetchedAt": "2026-09-23T16:44:09.573Z",
     "metric": "FDA product and presentation shortage status; not local inventory",
-    "lastUpdated": "2026-09-22T16:46:58.582Z",
+    "lastUpdated": "2026-09-23T16:44:09.573Z",
     "items": [
       {
         "drugName": "Amoxicillin (suspension)",
@@ -639,7 +639,7 @@
         "status": "Unknown",
         "pediatricRelevance": "First-line for AOM, strep pharyngitis, CAP in many pediatric patients.",
         "suggestedProviderAction": "Confirm pharmacy availability before prescribing high-volume liquid formulations; consider alternative concentrations.",
-        "lastUpdated": "2026-09-22T16:46:57.378Z",
+        "lastUpdated": "2026-09-23T16:44:08.452Z",
         "source": "FDA Drug Shortages",
         "statusDetail": "Not listed in FDA's current or resolved shortage records; this does not confirm local availability."
       },
@@ -649,7 +649,7 @@
         "status": "Unknown",
         "pediatricRelevance": "Common second-line for AOM and sinusitis when amoxicillin is insufficient.",
         "suggestedProviderAction": "Verify availability with local pharmacy before sending; have alternate regimens ready.",
-        "lastUpdated": "2026-09-22T16:46:57.555Z",
+        "lastUpdated": "2026-09-23T16:44:08.565Z",
         "source": "FDA Drug Shortages",
         "statusDetail": "Not listed in FDA's current or resolved shortage records; this does not confirm local availability."
       },
@@ -659,7 +659,7 @@
         "status": "Unknown",
         "pediatricRelevance": "Common penicillin alternative for AOM and sinusitis.",
         "suggestedProviderAction": "Monitor for changes if amoxicillin demand surges.",
-        "lastUpdated": "2026-09-22T16:46:57.704Z",
+        "lastUpdated": "2026-09-23T16:44:08.951Z",
         "source": "FDA Drug Shortages",
         "statusDetail": "Not listed in FDA's current or resolved shortage records; this does not confirm local availability."
       },
@@ -669,7 +669,7 @@
         "status": "Unknown",
         "pediatricRelevance": "Core rescue therapy for pediatric asthma and reactive airway disease.",
         "suggestedProviderAction": "Reinforce spacer use and asthma action plans; remind families to refill before respiratory season peaks.",
-        "lastUpdated": "2026-09-22",
+        "lastUpdated": "2026-09-23",
         "source": "FDA Drug Shortages",
         "statusDetail": "Not listed in FDA's current or resolved shortage records; this does not confirm local availability."
       },
@@ -689,7 +689,7 @@
         "status": "Unknown",
         "pediatricRelevance": "Influenza treatment in eligible pediatric patients during flu season.",
         "suggestedProviderAction": "Revisit if regional flu activity rises.",
-        "lastUpdated": "2026-09-22",
+        "lastUpdated": "2026-09-23",
         "source": "FDA Drug Shortages",
         "statusDetail": "Not listed in FDA's current or resolved shortage records; this does not confirm local availability."
       },
@@ -721,9 +721,9 @@
     "sourceUrl": "https://data.cdc.gov/d/x9gk-5huc",
     "geography": "Texas",
     "reportingDate": "2026 MMWR week 36",
-    "fetchedAt": "2026-09-22T16:47:17.914Z",
+    "fetchedAt": "2026-09-23T16:44:09.456Z",
     "metric": "Provisional year-to-date reported cases",
-    "lastUpdated": "2026-09-22T16:47:17.914Z",
+    "lastUpdated": "2026-09-23T16:44:09.456Z",
     "items": [
       {
         "diseaseName": "Measles",
@@ -734,7 +734,7 @@
         "vaccineRelevance": "MMR-preventable. Highly contagious; airborne. Confirm MMR1 (12-15 mo) and MMR2 (4-6 yr) at every visit.",
         "suggestedProviderAction": "Verify MMR status, prompt catch-up doses, and review measles isolation/notification protocol with staff.",
         "thresholdRationale": "177 provisional Texas cases YTD vs 803 in the same period last year. An official advisory is required to label an outbreak.",
-        "lastUpdated": "2026-09-22T16:47:17.914Z"
+        "lastUpdated": "2026-09-23T16:44:09.456Z"
       },
       {
         "diseaseName": "Pertussis (whooping cough)",
@@ -745,7 +745,7 @@
         "vaccineRelevance": "DTaP/Tdap-preventable. Infants under 2 mo are highest-risk. Confirm caregiver Tdap (cocooning).",
         "suggestedProviderAction": "Low threshold for testing prolonged paroxysmal cough; confirm DTaP series and Tdap for adolescents.",
         "thresholdRationale": "183 provisional Texas cases YTD vs 3101 in the same period last year. An official advisory is required to label an outbreak.",
-        "lastUpdated": "2026-09-22T16:47:17.914Z"
+        "lastUpdated": "2026-09-23T16:44:09.456Z"
       },
       {
         "diseaseName": "Hepatitis A",
@@ -756,7 +756,7 @@
         "vaccineRelevance": "HepA-preventable. Two-dose series starting at 12 mo.",
         "suggestedProviderAction": "Confirm HepA series at well visits; emphasize for travel to endemic regions.",
         "thresholdRationale": "38 provisional Texas cases YTD vs 69 in the same period last year. An official advisory is required to label an outbreak.",
-        "lastUpdated": "2026-09-22T16:47:17.914Z"
+        "lastUpdated": "2026-09-23T16:44:09.456Z"
       },
       {
         "diseaseName": "Varicella (chickenpox)",
@@ -767,7 +767,7 @@
         "vaccineRelevance": "Varicella-preventable. Two-dose series (12-15 mo, 4-6 yr).",
         "suggestedProviderAction": "Confirm two-dose varicella status at school-age visits; counsel on rash isolation.",
         "thresholdRationale": "296 provisional Texas cases YTD vs 355 in the same period last year. An official advisory is required to label an outbreak.",
-        "lastUpdated": "2026-09-22T16:47:17.914Z"
+        "lastUpdated": "2026-09-23T16:44:09.456Z"
       },
       {
         "diseaseName": "Mumps",
@@ -778,7 +778,7 @@
         "vaccineRelevance": "MMR-preventable. Outbreaks often occur in close-contact settings (camps, schools).",
         "suggestedProviderAction": "Confirm MMR2 in school-age and adolescents; review parotitis differential during outbreaks.",
         "thresholdRationale": "7 provisional Texas cases YTD vs 26 in the same period last year. An official advisory is required to label an outbreak.",
-        "lastUpdated": "2026-09-22T16:47:17.914Z"
+        "lastUpdated": "2026-09-23T16:44:09.456Z"
       },
       {
         "diseaseName": "Invasive pneumococcal disease (age <5)",
@@ -789,7 +789,7 @@
         "vaccineRelevance": "PCV15/PCV20-preventable. Series at 2, 4, 6, 12-15 mo.",
         "suggestedProviderAction": "Confirm PCV series; review post-splenectomy and high-risk indications.",
         "thresholdRationale": "51 provisional Texas cases YTD vs 57 in the same period last year. An official advisory is required to label an outbreak.",
-        "lastUpdated": "2026-09-22T16:47:17.914Z"
+        "lastUpdated": "2026-09-23T16:44:09.456Z"
       }
     ],
     "stale": false
